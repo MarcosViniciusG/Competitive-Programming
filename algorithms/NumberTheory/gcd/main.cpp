@@ -12,3 +12,9 @@ ll gcd(ll a, ll b)
     return b; 
   return gcd(b % a, a); 
 } 
+
+// Least common multiple
+ll lcm(ll a, ll b)
+{
+  return a / gcd(a, b) * b;
+}

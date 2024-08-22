@@ -2,8 +2,6 @@
 
 using namespace std;
 using ll = long long;
-
-// O(sqrt(n))
 bool isPrime(ll n)
 {
     // Check if n is divisible by 2
@@ -17,4 +15,24 @@ bool isPrime(ll n)
             return false;
     }
     return n >= 2;
+}
+
+int main() {
+    int n;
+    cin >> n;
+
+    int c = 0;
+    for(int i=6; i<=n; i++) {
+        int pc=0;
+        for(int j=2; j<i; j++) {
+            if ((i % j==0) && isPrime(j))
+                pc++;
+        }
+
+        if(pc==2)
+            c++;
+    }
+
+    cout << c << endl;
+    return 0;
 }

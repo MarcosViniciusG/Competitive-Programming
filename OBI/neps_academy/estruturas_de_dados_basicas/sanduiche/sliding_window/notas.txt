@@ -1,3 +1,0 @@
-- Técnica usada para encontrar subarrays em uma array
-- Faz parte da técnica de programação dinâmica
-- Subarrays são sempre contíguas, ou seja, os elementos devem ser adjacentes

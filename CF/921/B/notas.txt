@@ -1,6 +1,0 @@
-- Upsolving
-- Sejam a1+a2+...+an=x, então, pelas propriedades da função GCD, GCD(a1, a2, ..., an) = GCD(a1, a1+a2, ..., a1+a2+...+an) = GCD(a1, a1+a2, ..., x). Ou seja,
-a resposta sempre será um divisor de x.
-- A condição é que para qualquer divisor de x d, n*d <= x.
-- Encontre o maior d para o qual essa condição é verdadeira
-- Utilização de fatorização trivial: procurar no intervalo [1, sqrt(x)].

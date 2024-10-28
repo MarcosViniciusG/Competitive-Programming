@@ -8,12 +8,11 @@ int main()
     ll counter = 0;
 
     cin >> n;
+
+    for(int k=1; k<=n; k++)
     for (i = 0; i < n; i++)
     {
-        for (j = 0; j < n; j++)
-        {
-            
-        }
+        
     }
 
     return 0;

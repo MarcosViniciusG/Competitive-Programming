@@ -3,40 +3,29 @@
 using namespace std;
 using ll = long long;
 
-const ll MAXN = 10000;
-ll dp[MAXN][3];
+const ll MAXN = 100000;
+ll dp[MAXN];
 ll m = ll(1e9 + 7);
 
-ll solve(ll n, ll c) {
-    if(n==1 && c==1)
-        return dp[1][1] = 1;
-    else if(n==1 && c==2)  
-        return dp[1][2] = 2;
-    else if(c==1) {
-        if(dp[n-1][c]==-1)
-            dp[n-1][c] = solve(n-1, c);
+ll solve(ll n) {
+    if(n==1)
+        return dp[n] = 2;
 
-        dp[n][c] = (dp[n-1][c] * 2);
-        dp[n][c] %= m;
-        return dp[n][c];
-    }
+    if(dp[n-1]==-1)
+        dp[n-1] = solve(n-1);
 
-    dp[n][c-1] = solve(n, c-1);
-    dp[n-1][c] = solve(n-1, c);
-
-    return dp[n][c] = 4*dp[n-1][c] + 2*(dp[n][c-1]) % m;
+    return dp[n] = (5*(dp[n-1] - 1) % m) + (ll(1 << n) % m);
 }
-
 
 int main() {
     memset(dp, -1, sizeof(dp));
-    solve(MAXN-1, 2);
+    solve(MAXN-1);
 
     ll t, n;
     cin >> t;
     while(t--) {
         cin >> n;
-        cout << dp[n][2] << '\n';
+        cout << dp[n] << '\n';
     }
 
     return 0;

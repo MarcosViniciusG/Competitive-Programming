@@ -1,70 +1,94 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 using ll = long long;
-#define endl '\n'
+using vll = vector<ll>;
+const int MAXN = 31;
 
-vector<char> ranking;
+ll getPermutation(map<char,int>& charcount)
+{
+    ll total = 1;
 
-ll n_perms(int pos, char current) {
-    map<char, ll> already;
-    ll j=0;
-    ll soma=0;
+    ll n_elements=0;
 
-    while(ranking[j]!=current) {
-        ll produto=1;
-        int n_elements=0;
-        char counters[26] = {0};
+    map<char, int> mp = charcount;
 
-        for(int i=pos+1; i<ranking.size(); i++) {
-            counters[ranking[i]-'a']++;
-            n_elements++;
+    // cout << "PARES\n";
+    for(auto pair : charcount)
+    {
+        // cout << pair.first << " " << pair.second << '\n';
+        n_elements+=(pair.second);
+    }
+    // cout << '\n';
+
+    for(int i=n_elements; i>=1; i--) {
+        // cout << total << " * " << i << '\n';
+        total*=i;
+
+        for(auto pair : mp)
+        {   
+            if(i==pair.second) {
+                // cout << total << " / " << pair.second << '\n';
+                total /= pair.second;
+                mp[pair.first]--;
+            }
         }
-        
-        // Fatorial
-        for(int i=n_elements; i>=1; i--) {
-            produto *= i;
+    }
+    // cout << "pre-factorial total: " << total << endl;
+    // cout << "pre-div factorial total : " << abs(factorials[total]) << endl;
+    // total = abs(factorials[total]) / denominator;
 
-            // Divisão
-            for(int j=0; j<26; j++) {
-                if(i==counters[j]) {
-                    produto /= counters[j];
-                    counters[j]--;
-                }
+    // cout << "post-div total: " << total << " denominator: " << denominator << endl;
+
+    return total;
+}//zzzzzzzzzzzzzzaaaaaaaaaaaaaa
+
+ll solve(const string& s)
+{
+    map<char, int> charcount;
+    ll position = 1;
+    for(auto x : s)
+    {
+        charcount[x]++;
+    }
+
+    int len = s.length();
+    for(int i = 0; i < len; i++)
+    {
+        char curr = s[i];
+        
+        for(auto pair : charcount)
+        {
+            char small = pair.first;
+            if(small >= curr) break;
+
+            if(charcount[small] > 0)
+            {   
+                charcount[small]--;
+                position += abs(getPermutation(charcount));
+                // cout << position << '\n' << '\n';
+                charcount[small]++;
             }
         }
 
-        if(already.find(ranking[j])==already.end())
-            soma += produto;
-            
-        already[ranking[j]] = produto;
-
-        j++;
+        charcount[curr]--;
+        if(charcount[curr] == 0)
+        {
+            charcount.erase(curr);
+        }
     }
-    return soma;
+
+    return position;
 }
 
-int main() {
+int main()
+{
     string s;
-    getline(cin, s);
-    int n = s.length();
 
-    string ordem = s;
-    sort(ordem.begin(), ordem.end());
-
-    for(int i=0; i<n; i++) {
-        ranking.push_back(ordem[i]);        
+    while (getline(cin, s), s!="#")
+    {
+        ll pos = solve(s);
+        printf("%10lld\n", pos);
     }
-
-    // for(int i=0; i<n; i++) {
-    //     cout << (i+1) << " " << ranking[i] << '\n';        
-    // }
-    ll soma=0;
-    for(ll i=0; i<n; i++) {
-        ll result = n_perms(i, s[i]);
-        cout << result << '\n';
-        soma += result;
-    }
-
-    cout << soma << '\n';
+    
+    return 0;
 }

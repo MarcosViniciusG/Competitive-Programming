@@ -20,7 +20,7 @@ void dfs(ll at, ll n ,vpll adj[], bool visited[]) {
 
 signed main() {
     cin.tie(nullptr)->sync_with_stdio(false);
-    ll placeholder_start, placeholder_end;
+    ll a, b;
 
     // n is nodes and m is edges
     ll n, m;
@@ -38,20 +38,20 @@ signed main() {
     ll weight;
     for(ll i=0; i<m; i++) {
         weight=1;
-        cin >> placeholder_start >> placeholder_end;
+        cin >> a >> b;
 
         if(weighted) 
             cin >> weight;
 
-        adj[placeholder_start-1].push_back(make_pair(placeholder_end-1, weight));
+        adj[a-1].push_back(make_pair(b-1, weight));
         if(undirected)
-            adj[placeholder_end-1].push_back(make_pair(placeholder_start-1, weight));
+            adj[b-1].push_back(make_pair(a-1, weight));
     }
 
     bool visited[n] = {0};
 
     ll start_node=0;    
     dfs(start_node, n, adj, visited);
-
+    
     return 0;
 }

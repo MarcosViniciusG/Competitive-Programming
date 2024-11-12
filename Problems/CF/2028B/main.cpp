@@ -15,21 +15,19 @@ signed main() {
         cin >> n >> b >> c;
 
         ll no=0;
-        if(n==1) {
-            if(c!=0)
-                no=1;
-        }
-        else if(b==0) {
-            if(n-c > 2)
+        if(b==0) {
+            if(c>=n)
+                no=n;
+            else if(n-c > 2)
                 no=-1;
             else
                 no=n-1;
         }
         else {
-            no = n - ceil(double(n)/b);
-
-            if(c+(b*(n-1))>=n)
-                no += min(n, abs(c-n));
+            if(c>=n) 
+                no = n;
+            else 
+                no = n-max(0ll, 1+(n-c-1)/b);
         }
 
         cout << no << '\n';

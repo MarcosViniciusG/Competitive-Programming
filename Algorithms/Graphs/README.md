@@ -15,14 +15,6 @@
 - Generate mazes
 
 ```cpp
-#include <bits/stdc++.h>
-
-using namespace std;
-using ll = long long;
-using vll = vector<ll>;
-using pll = pair<ll, ll>;
-using vpll = vector<pll>;
-
 void dfs(ll at, ll n ,vpll adj[], bool visited[]) {
     if(visited[at])
         return;
@@ -41,14 +33,6 @@ void dfs(ll at, ll n ,vpll adj[], bool visited[]) {
 **ADJACENCY LIST**
 
 ```cpp
-#include <bits/stdc++.h>
-
-using namespace std;
-using ll = long long;
-using vll = vector<ll>;
-using pll = pair<ll, ll>;
-using vpll = vector<pll>;
-
 void bfs(ll s, ll n, vll adj[]) {
     bool visited[n] = {0};
     visited[s] = true;
@@ -73,14 +57,6 @@ void bfs(ll s, ll n, vll adj[]) {
 `O(n+m)`
 
 ```cpp
-#include <bits/stdc++.h>
-
-using namespace std;
-using ll = long long;
-using vll = vector<ll>;
-using pll = pair<ll, ll>;
-using vpll = vector<pll>;
-
 vll solve(ll s, ll n, vll adj[]) {
     bool visited[n] = {0};
     visited[s] = true;
@@ -127,5 +103,31 @@ vll bfs(ll s, ll e, ll n, vll adj[]) {
     vll prev = solve(s, n, adj);
 
     return reconstructPath(s, e, prev);
+}
+```
+
+## Flood Fill
+`O(n+m)`
+
+**2D MATRIX (IMPLICIT GRAPH)**
+- Returns size of connected component
+- Variation of DFS/BFS
+
+```cpp
+int dir_y[] = {};
+int dir_x[] = {};
+
+int floodfill(int i, int j, char c1, char c2) {
+    if ((i < 0) || (i >= n)) return 0;
+    if ((j < 0) || (j >= m)) return 0;
+    if (grid[i][j] != c1) return 0;
+
+    int ans = 1;
+    grid[i][j] = c2;
+
+    for (int d = 0; d < 8; ++d)
+        ans += floodfill(i+dir_y[d], j+dir_x[d], c1, c2); 
+
+    return ans;
 }
 ```

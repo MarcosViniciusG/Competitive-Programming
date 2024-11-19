@@ -15,15 +15,15 @@
 - Generate mazes
 
 ```cpp
-void dfs(ll at, ll n ,vpll adj[], bool visited[]) {
+void dfs(ll at, ll n ,vll adj[], bool visited[]) {
     if(visited[at])
         return;
 
     visited[at] = true;
 
-    vpll neighbours = adj[at];
+    vll neighbours = adj[at];
     for(auto nex: neighbours)
-        dfs(nex.first, n, adj, visited);
+        dfs(nex, n, adj, visited);
 }
 ```
 
@@ -129,5 +129,110 @@ int floodfill(int i, int j, char c1, char c2) {
         ans += floodfill(i+dir_y[d], j+dir_x[d], c1, c2); 
 
     return ans;
+}
+```
+
+## Topological Sort (Directed Acyclic Graph)
+
+### DFS Variation
+`O(n+m)`
+```cpp
+void dfs(ll at, ll n ,vpll adj[], bool visited[], vll &ts) {
+    if(visited[at])
+        return;
+
+    visited[at] = true;
+
+    vpll neighbours = adj[at];
+    for(auto nex: neighbours)
+        dfs(nex.first, n, adj, visited);
+    ts.push_back(at);                       // Only change
+}
+```
+
+### Kahn's Algorithm
+- Result may differ from the DFS variation topological sort
+- Modified BFS, but uses a priority queue
+- Prioritizes lower index vertices first
+
+**NEED TO CALCULATE IN DEGREE OF EACH VERTICE**
+```cpp
+priority_queue<ll, vll, greater<ll>> pq;
+for(ll at=0; at<n; at++)        // Push all sources of connected components in graph 
+    if(in_degree[at] == 0)
+        pq.push(at);
+
+while(!pq.empty()) {
+    ll at = pq.top(); pq.pop();
+    vll neighbors = adj[at];
+    for(auto nex: neighbors) {
+        in_degree[nex]--;
+        if(in_degree[nex]>0) continue;
+        pq.push(nex);
+    }
+}
+
+```
+
+## Bipartite Graph Check (Undirected Graph)
+`O(n+m)`
+
+- BFS variation
+- If layer i has the color 0, then layer i+1 has color 1
+
+```cpp
+bool isBipartite(ll s, ll n, vll adj[]) {
+
+    queue<ll> q;
+    q.push(s);
+    vll color(n, -1); color[s]=0;
+    bool flag = true;
+    while (!q.empty())
+    {
+        vll neighbours = adj[q.front()]; 
+        for(auto nex: neighbours) {
+            if(color[nex] == -1) {
+                color[nex] = 1-(color[q.front()]);
+                q.push(nex);
+            }
+            else if(color[nex] == color[q.front()]) {
+                flag = false;
+                break;
+            }
+        }
+        q.pop();   
+    }
+
+    return flag;
+}
+```
+
+## Cycle Check (Directed Graph)
+```cpp
+enum { UNVISITED = -1, VISITED = -2,  EXPLORED=-3};
+
+void cycleCheck(ll at, ll n ,vll adj[], int visited[], ll dfs_parent[]) {
+    visited[at] = EXPLORED;
+
+    vll neighbours = adj[at];
+    for(auto nex: neighbours) {
+        cout << "Edge (" << at << " " << nex << ") is a ";
+        if(visited[nex] == UNVISITED) {
+            cout << "Tree Edge\n";
+            dfs_parent[nex] = at;
+            cycleCheck(nex, n, adj, visited);
+        }
+        else if(visited[nex] == EXPLORED) {
+            if(nex == dfs_parent[at])
+                cout << "Bidirectional Edge\n"; // Trivial cycle
+            else
+                cout << "Back Edge (Cycle)\n"; // Non trivial cycle
+
+        }
+        else if(visited[nex] == VISITED)
+            cout << "Forward/Cross Edge\n";
+    }
+
+    visited[at] = VISITED;
 }
 ```

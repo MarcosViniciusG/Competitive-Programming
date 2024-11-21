@@ -14,60 +14,56 @@ signed main() {
 
     while(t--) {
         cin >> n >> m >> L;
-        vpll hurdles;
+
+        vpll positions;
+        vll powerups;
+        vll hurdles;
 
         for(ll i=0; i<n; i++) {
             cin >> li >> ri;
-            hurdles.push_back(make_pair(li, ri));
+
+            hurdles.push_back(ri-li+1);
+            positions.push_back(make_pair(li, 0));
         }
 
-        ll j=0;
-        vector<multiset<ll, greater<ll>>> intervals(n);
         for(ll i=0; i<m; i++) {
             cin >> xi >> vi;
-            if(j < n) {
-                if(xi < hurdles[j].first)
-                    intervals[j].insert(vi);
-                else {
-                    j++;
-                    if(j<n)
-                        intervals[j].insert(vi);
+
+            powerups.push_back(vi);
+            positions.push_back(make_pair(xi, 1));
+        }
+
+        sort(positions.begin(), positions.end());
+
+        ll k=1, no=0;
+        priority_queue<ll> pq;
+        for(ll i=0, p=0, h=0; i<(n+m); i++) {
+            //cout << "POSIÇÃO: " << positions[i].first << '\n';
+            if(positions[i].second) {
+                //cout << "POWERUP :" << powerups[p] << '\n';
+                pq.push(powerups[p]);
+                p++;
+            }  
+            else {
+                //cout << "OBSTÁCULO: " << hurdles[h] << '\n';
+                if(k <= hurdles[h]) {
+                    while(!pq.empty() && k<=hurdles[h]) {
+                        k+=pq.top();
+                        pq.pop();
+                        no++;
+                    }
                 }
+
+                if(k <= hurdles[h]) {
+                    no=-1;
+                    break;
+                }
+                h++;
             }
         }
 
-        ll k = 1;
-        ll result = 0;
-
-        for(ll i=0; i<n; i++) {
-            if(i>0) {
-                intervals[i].insert(intervals[i-1].begin(), intervals[i-1].end());
-                intervals[i-1].clear();
-            }
-            auto it = intervals[i].begin();
-            ll length_hurdle = abs(hurdles[i].second - hurdles[i].first) + 1;
-
-
-            // cout << "LENGTH: " << length_hurdle << '\n';
-            while(it != intervals[i].end()) {
-                ll el = *(it);      
-
-                if(k <= length_hurdle) {
-                    k += el;
-                    result++;
-                    intervals[i].erase(it++);
-                }
-                else
-                    ++it;
-            }
-
-            if(k <= length_hurdle) {
-                result = -1;
-                break;
-            }
-        }
-
-        cout << result << '\n';
+        cout << no << '\n';
+        
     }
 
     return 0;

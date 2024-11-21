@@ -9,32 +9,43 @@ using vpll = vector<pll>;
 
 const ll MAXN = ll(2*ll(1e5) + 1);
 
-vector<bool> sieveOfEratosthenes(ll n)
-{
-    vector<bool> prime(n + 1, true);
-
-    for (int p = 2; p * p <= n; p++) {
-        if (prime[p] == true) {
-            for (int i = p * p; i <= n; i += p)
-                prime[i] = false;
-        }
-    }
-
-    return prime;
-}
-
-
 signed main() {
     cin.tie(nullptr)->sync_with_stdio(false);
     ll t, n;
 
-    vector<bool> prime = sieveOfEratosthenes(MAXN);
     cin >> t;
 
     while (t--)
     {
         cin >> n;
+        if(n < 5) {
+            cout << -1 << '\n';
+            continue;
+        }
 
+        vll odds, evens;
+        for(int i=1; i<=n; i++) {
+            if(i!=5 && (i & 1))
+                odds.push_back(i);
+            else if(i!=4 && !(i&1))
+                evens.push_back(i);
+        }
+
+        vll solution;
+        for(auto odd: odds)
+            solution.push_back(odd);
+        
+        solution.push_back(5);
+
+        solution.push_back(4);
+
+        for(auto even: evens)
+            solution.push_back(even);
+
+        for(auto e: solution)
+            cout << e << ' ';
+
+        cout << '\n';
     }
     
     return 0;

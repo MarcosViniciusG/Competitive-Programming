@@ -208,6 +208,9 @@ bool isBipartite(ll s, ll n, vll adj[]) {
 ```
 
 ## Cycle Check (Directed Graph)
+`O(n+m)`
+- Find back edges and forward/cross edges
+
 ```cpp
 enum { UNVISITED = -1, VISITED = -2,  EXPLORED=-3};
 
@@ -234,5 +237,36 @@ void cycleCheck(ll at, ll n ,vll adj[], int visited[], ll dfs_parent[]) {
     }
 
     visited[at] = VISITED;
+}
+```
+
+## Articulation Points and Bridges
+`O(n + m)`
+
+```cpp
+void articulationPointAndBridge(ll at) {
+    dfs_num[at] = dfsNumberCounter++;
+    dfs_low[at] = dfs_num[at];
+
+    vll neighbours = graph[at];
+    for(auto nex: neighbours) {
+        if(dfs_num[at] == UNVISITED) {
+            dfs_parent[nex] = at;
+            
+            if(at == dfsRoot) ++rootChildren;
+
+            articulationPointAndBridge(at);
+
+            if(dfs_low[nex] >= dfs_num[at])
+                articulation_vertex[at] = 1;
+            if(dfs_low[nex] > dfs_num[at])
+                // Process
+
+            dfs_low[at] = min(dfs_low[at], dfs_low[nex]);
+        }
+        else if(nex != dfs_parent[at])
+            dfs_low[at] = min(dfs_low[at], dfs_num[nex]);
+
+    }
 }
 ```

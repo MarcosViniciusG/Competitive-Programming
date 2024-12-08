@@ -1,4 +1,4 @@
-# Graph
+# Graphs
 
 ## DFS
 `O(n+m)`

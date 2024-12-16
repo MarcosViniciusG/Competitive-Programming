@@ -151,4 +151,75 @@ vector<string> anagrams(const string &s) {
 }
 ```
 
+## Remarkable strings
+
+### Fibonacci strings
+```cpp
+string build(int n) {
+    string ans="";
+    if(n==0) return ans;
+    else if(n==1) return (ans+'b');
+    else if(n==2) return (ans+'a');
+
+    ans += build(n-1);
+    ans += build(n-2);
+    return ans;
+}
+```
+
+### Thue-Morse prefixes
+```cpp
+string build(int n) {
+    string ans;
+    for(int k=0; k<(1<<n); k++) {
+        if(__builtin_popcount(k) & 1)
+            ans += 'b';
+        else
+            ans += 'a';
+    }
+
+    return ans;
+}
+```
+
+### Binary words
+```cpp
+string build(int n) {
+    string ans="";
+    for(int k=0; k<=n; k++) {
+        ans += to_string((fact(n) / (fact(k) * fact(n-k))) % 2); 
+    }
+
+    return ans;
+}
+```
+
+### Digits string
+string build(int n) {
+    string ans="";
+    for(int i=0; i<=n; i++) 
+        ans += to_string(i);
+    return ans;
+}
+
 ## Facts
+
+### Periods and borders
+- The sequence:  
+    $$ |s| - |border(s)|, |s| - |border^2(s)|, ..., |s| - |border^k(s)| $$ 
+    is the crescent sequence of all possible periods of s, where k is the smallest positive integer such that $|border^k(s)|=0$
+
+### Fibonacci strings
+- Removing the last two letters of a Fibonacci string give us a palindrome
+- Any Fibonacci string $F_n$ with $n \ge 2$ is a prefix of another Fibonacci string
+- Every Fibonacci string $F_n$ with $n \ge 2$ is a prefix of $F_\infty$
+
+### Thue-Morse prefixes
+- They are free from overlaps (There is no emtpy string $s$ that occurs em two distinct positions of $T(n)$ with a distance between the positions smaller than $|s|$)
+- They are free from squares
+
+### Binary words
+- The number of occurences of the char `'1'` in $P_n$ is equal to $2^{g(n)}$, where $g(n)$ is equal to the number of ones in the binary representation of k
+
+### Digits string
+- Let $s$ be a string composed by decimal digits. The function $occ_n(s)$ computes the number of occurrences of s in $W_n$

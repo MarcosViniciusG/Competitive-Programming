@@ -12,6 +12,7 @@ signed main() {
     getline(cin, s);
 
     int dist[n/2];
+    int dist2[n/2];
 
     for(int i=0; i<(n/2); i++) {
         int j = n - i - 1;
@@ -24,15 +25,16 @@ signed main() {
             path1 = (s[j]-s[i]); // Diminui s[j] até s[i]
             path2 = ('z' - s[j]) + (s[i]-'a')+ 1;
         }
-        // cout << path2 << '\n';
+
         dist[i] = min(path1, path2);
+        dist2[i] = dist[i];
     }
 
-    for(int i=0; i<(n/2); i++) {
-        cout << dist[i] << ' ' << i << '\n';
-    }
+    // for(int i=0; i<(n/2); i++) {
+    //     cout << dist[i] << ' ' << i << '\n';
+    // }
 
-    cout << '\n';
+    // cout << '\n';
 
     p--;
     if(n & 1) {
@@ -40,13 +42,10 @@ signed main() {
             p = (n/2)-1;
     }
     p %= (n/2);
-    cout << p << '\n';
     
-
     ll counter1=0;
     ll sim = 0;
     ll new_p=p;
-
     // Walk to right and change if necessary
     for(int i=p; i<(n/2); i++) {
         if(dist[i] > 0) {
@@ -67,12 +66,40 @@ signed main() {
             // cout << i << " " << dist[i] << " " << sim << '\n';
             counter1 += dist[i];
             counter1 += sim;
-            new_p = i;
             sim = 0;
         }
         sim++;
     }
-    
+
+                // Second counter
+    ll counter2=0;
+    sim = 0;
+    new_p = p; 
+    // Walk to left and change if necessary
+    for(int i=p; i>=0; i--) {
+        if(dist2[i] > 0) {
+            // cout << i << " " << dist[i] << " " << sim << '\n';
+            counter2 += dist2[i];
+            counter2 += sim;
+            new_p = i;
+            sim = 0;
+            dist2[i] = 0;
+        }
+        sim++;
+    }
+
+    sim = 0;
+    // Walk to right and change if necessary
+    for(int i=new_p; i<(n/2); i++) {
+        if(dist2[i] > 0) {
+            // cout << i << " " << dist[i] << " " << sim << '\n';
+            counter2 += dist2[i];
+            counter2 += sim;
+            sim = 0;
+        }
+        sim++;
+    }
+
     cout << min(counter1, counter2) << '\n';
 
     return 0;

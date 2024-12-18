@@ -3,7 +3,7 @@
 ## Palindromes
 
 ### Iterative
-`O(|s|)`
+$O(|s|)$
 
 ```cpp
 bool is_palindrome(const string &s)
@@ -19,7 +19,7 @@ bool is_palindrome(const string &s)
 ```
 
 ### Recursive
-`O(|s|)`
+$O(|s|)$
 
 ```cpp
 bool is_palindrome(const string& s, int i, int j)
@@ -32,7 +32,7 @@ bool is_palindrome(const string& s, int i, int j)
 ```
 
 ### All substrings that are palindromes
-`O(|s|^3)`
+$O(|s|^3)$
 
 ```cpp
 vector<string> palindromes(const string& s)
@@ -55,7 +55,7 @@ vector<string> palindromes(const string& s)
 ## Histograms
 
 ### Counters
-`O(|s|)`
+$O(|s|)$
 
 ```cpp
 map<char, int> histogram(const string& s)
@@ -70,7 +70,7 @@ map<char, int> histogram(const string& s)
 ```
 
 ### Indexes
-`O(|s|)`
+$O(|s|)$
 
 ```cpp
 map<char, vector<int>> histogram(const string& s)
@@ -87,7 +87,7 @@ map<char, vector<int>> histogram(const string& s)
 ## Anagrams
 
 ### Histogram
-`O(|s|+|t|)`
+$O(|s|+|t|)$
 
 ```cpp
 bool is_anagram(const string& s, const string & t) {
@@ -96,7 +96,7 @@ bool is_anagram(const string& s, const string & t) {
 ```
 
 ### Sorting
-`O(|s| log |s| + |t| log |t|)`
+$O(|s| log |s| + |t| log |t|)$
 
 ```cpp
 bool is_anagram(const string& s, const string & t) {
@@ -110,7 +110,7 @@ bool is_anagram(const string& s, const string & t) {
 ```
 
 ### Number of anagrams
-`O(|s|^2)`
+$O(|s|^2)$
 
 ```cpp
 ll n_anagrams(const string &s) {
@@ -134,7 +134,7 @@ ll n_anagrams(const string &s) {
 ```
 
 ### All anagrams
-`O(|s|!)`
+$O(|s|!)$
 
 ```cpp
 vector<string> anagrams(const string &s) {
@@ -213,7 +213,7 @@ vll inverses(ll n)
     return is;
 }
 
-ll h2(ll i, ll j, vll ps, vll is) {
+ll h(ll i, ll j, vll ps, vll is) {
     ll diff = i ? ps[j] - ps[i-1] : ps[j];
     diff = (diff*is[i]) % q;
 
@@ -229,7 +229,7 @@ ll unique_substrings(string s) {
 
     for(ll i=0; i<n; i++) {
         for(ll j=i; j<n; j++) {
-            ll hij = h2(i, j, ps, is);
+            ll hij = h(i, j, ps, is);
 
             hs.insert(hij);
         }
@@ -293,9 +293,7 @@ string build(int n) {
 ## Facts
 
 ### Periods and borders
-- The sequence:  
-    $$ |s| - |border(s)|, |s| - |border^2(s)|, ..., |s| - |border^k(s)| $$ 
-    is the crescent sequence of all possible periods of s, where k is the smallest positive integer such that $|border^k(s)|=0$
+- The sequence: $ |s| - |border(s)|, |s| - |border^2(s)|, ..., |s| - |border^k(s)| $ is the crescent sequence of all possible periods of s, where k is the smallest positive integer such that $|border^k(s)|=0$
 
 ### Fibonacci strings
 - Removing the last two letters of a Fibonacci string give us a palindrome

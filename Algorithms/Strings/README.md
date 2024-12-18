@@ -151,6 +151,94 @@ vector<string> anagrams(const string &s) {
 }
 ```
 
+## Hashes
+$O(|s|)$
+
+- If only lowercase chars, use $p = 31$
+- Else if lowercase + uppercase, use $p = 53$
+- Use $q = 1e9 + 7$ or $q=1e9 + 9$
+
+```cpp
+ll h(string s) {
+    ll ans=0;
+
+    for(auto c: s)
+    {
+        ans = (ans*p) % q;
+        ans = (ans + to_int(c)) % q;
+    }
+
+    return ans;
+}
+```
+
+### Distinct substrings
+$O(|s|^2)$
+```cpp
+vll prefixes(string s) 
+{
+    ll n = s.length();
+    vll ps(n, 0);
+
+    for(ll i=0; i<n; i++) 
+        ps[i] = h(s.substr(0, i+1));
+
+    return ps;
+}
+
+ll fast_exp_mod(ll a, ll n) {
+    ll res=1, base=a;
+
+    while(n) {
+        if(n & 1)
+            res = (res*base) % q;
+        
+        base = (base*base) % q;
+        n >>=1;
+    } 
+
+    return res;
+}
+
+vll inverses(ll n)
+{
+    vll is(n);
+    ll base=1;
+
+    for(ll i=0; i<n; i++) {
+        is[i] = fast_exp_mod(base, q-2);
+        base = (base*p) % q;
+    }
+    
+    return is;
+}
+
+ll h2(ll i, ll j, vll ps, vll is) {
+    ll diff = i ? ps[j] - ps[i-1] : ps[j];
+    diff = (diff*is[i]) % q;
+
+    return(diff + q) % q;
+}
+
+ll unique_substrings(string s) {
+    unordered_set<ll> hs;
+    ll n = s.length();
+
+    vll ps = prefixes(s);
+    vll is = inverses(n);
+
+    for(ll i=0; i<n; i++) {
+        for(ll j=i; j<n; j++) {
+            ll hij = h2(i, j, ps, is);
+
+            hs.insert(hij);
+        }
+    }
+
+    return hs.size();
+}
+```
+
 ## Remarkable strings
 
 ### Fibonacci strings

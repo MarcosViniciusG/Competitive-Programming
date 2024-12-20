@@ -31,7 +31,7 @@
 3. Algoritmos de Busca
 
     - [ ] [Codeforces Beta Round #70 (Div. 2) - Problem A: Haiku](https://codeforces.com/problemset/problem/78/A)
-    - [ ] [Help Far Away Kingdom](https://codeforces.com/problemset/problem/99/A)
+    - [X] [Help Far Away Kingdom](https://codeforces.com/problemset/problem/99/A)
     - [ ] [Strings of Power](https://codeforces.com/problemset/problem/318/B)
     - [ ] [Bear and Strings](https://codeforces.com/problemset/problem/385/B)
     - [ ] [Codeforces Round #306 (Div. 2) - Problem A: Two Substrings](https://codeforces.com/problemset/problem/550/A)

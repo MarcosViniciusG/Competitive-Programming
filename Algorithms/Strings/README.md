@@ -239,6 +239,99 @@ ll unique_substrings(string s) {
 }
 ```
 
+#### Alternative implementation
+```cpp
+ll count_unique_substrings(string s) {
+    ll n = s.length();
+
+    // Pre-calculate powers of p
+    vll p_pow(n);
+    p_pow[0] = 1;
+    for(ll i=1; i<n; i++) 
+        p_pow[i] = (p_pow[i-1] * p) % q;
+
+    // Pre-calculate hashes of prefixes of s
+    vll h(n+1, 0);
+    for(ll i=0; i<n; i++)
+        h[i+1] = (h[i] + to_int(s[i]) * p_pow[i]) % q;
+    
+    ll cnt=0;
+    // Iterate over all substrings of lenght l
+    for(ll l=1; l<=n; l++) {
+        unordered_set<ll> hs;
+        for(ll i=0; i<=n-l; i++) {
+            ll cur_h = (h[i+l] + q - h[i]) % q;
+            cur_h = (cur_h * p_pow[n-i-1]) % q;
+            hs.insert(cur_h);
+        }
+        cnt += hs.size();
+    }
+
+    return cnt;
+}
+```
+
+### Double hash
+```cpp
+ll hi(string s, ll p, ll q) {
+    ll ans=0;
+
+    for(auto c: s) {
+        ans = (ans * p) % q;
+        ans = (ans + to_int(c)) % q;
+    }
+
+    return ans;
+}
+
+pll h(string s) {
+    ll p1 = 31;
+    ll p2 = 29;
+    ll q1 = ll(1e9) + ll(7);
+    ll q2 = ll(1e9) + ll(9);
+
+    return {hi(s, p1, q1), hi(s, p2, q2)};
+}
+```
+
+## KMP
+$O(|s| + |p|)$
+```cpp
+vll strong_borders(string s) {
+    ll m = s.length(), t=-1;
+    vll bs(m+1, -1);
+
+    for(ll i=1; i<=m; i++) {
+        while(t>-1 && s[t] != s[i-1])
+            t = bs[t];
+
+        t++;
+        bs[i] = (i==m || s[t] != s[i]) ? t: bs[t];
+    }
+
+    return bs;
+}
+
+ll KMP(string s, string p) {
+    ll n = s.length(), m=p.length(), i=0, j=0, occ=0;
+
+    vll bs = strong_borders(p);
+
+    while(i<=n - m) {
+        while(j < m && p[j]==s[i+j])
+            j++;
+        
+        if(j==m) occ++;
+
+        ll shift = j-bs[j];
+        i += shift;
+        j = max(0LL, j-shift);
+    }
+
+    return occ;
+}
+```
+
 ## Remarkable strings
 
 ### Fibonacci strings
@@ -283,12 +376,14 @@ string build(int n) {
 ```
 
 ### Digits string
+```cpp
 string build(int n) {
     string ans="";
     for(int i=0; i<=n; i++) 
         ans += to_string(i);
     return ans;
 }
+```
 
 ## Facts
 

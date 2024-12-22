@@ -297,21 +297,6 @@ pll h(string s) {
 ## KMP
 $O(|s| + |p|)$
 ```cpp
-vll strong_borders(string s) {
-    ll m = s.length(), t=-1;
-    vll bs(m+1, -1);
-
-    for(ll i=1; i<=m; i++) {
-        while(t>-1 && s[t] != s[i-1])
-            t = bs[t];
-
-        t++;
-        bs[i] = (i==m || s[t] != s[i]) ? t: bs[t];
-    }
-
-    return bs;
-}
-
 ll KMP(string s, string p) {
     ll n = s.length(), m=p.length(), i=0, j=0, occ=0;
 
@@ -327,6 +312,84 @@ ll KMP(string s, string p) {
         i += shift;
         j = max(0LL, j-shift);
     }
+
+    return occ;
+}
+```
+
+### Calculate strong borders
+$(|s|)$
+
+```cpp
+vll strong_borders(string s) {
+    ll n = s.length(), t=-1;
+    vll bs(n+1, -1);
+
+    for(ll i=1; i<=n; i++) {
+        while(t>-1 && s[t] != s[i-1])
+            t = bs[t];
+
+        t++;
+        bs[i] = (i==m || s[t] != s[i]) ? t: bs[t];
+    }
+
+    return bs;
+}
+```
+
+### Calculate borders
+$O(|s|)$
+
+```cpp
+vll borders(string s) {
+    ll n = s.length(), t=-1;
+    vll bs(n+1, -1);
+    
+    for(ll i=0; i<n; i++) {
+        while(t >-1 and s[t]!=s[i])
+            t = bs[t];
+        
+        bs[i+1] = t++;
+    }
+
+    return bs;
+}
+
+```
+
+## Z-function
+$O(|s|)$
+
+```cpp
+vll z(string s) {
+    ll n = s.length(), L = 0, R = 0;
+    vll zs(n, 0);
+    for (ll i = 1; i < n; i++) {
+        if (i <= R)
+            zs[i] = min(zs[i - L], R - i + 1);
+
+        while (zs[i] + i < n && s[zs[i]] == s[i + zs[i]])
+            zs[i]++;
+
+        if (R < i + zs[i] - 1)
+            L = i, R = i + zs[i] - 1;
+    }
+
+    return zs;
+}
+```
+
+### Number of occurrences
+$O(|s|)$
+
+```cpp
+ll search(string s, string p, char delim='#') {
+    string t {p + delim + s};
+    vll zs = z(t);
+    ll occ = 0, m=p.length();
+
+    for(ll x: zs)
+        occ += (x==m ? 1 : 0);
 
     return occ;
 }

@@ -6,52 +6,58 @@ using vll = vector<ll>;
 using pll = pair<ll, ll>;
 using vpll = vector<pll>;
 
-void dfs(ll at, bool visited[], vpll graph[], pll &cc) {
+ll dfs(ll at, bool visited[], vpll graph[], ll maxw) {
     if(visited[at])
-        return;
+        return 0;
 
     visited[at] = true;
-
+    
     vpll neighbours = graph[at];
-    for(auto nex: neighbours) {
-        if(!visited[nex.first])
-            cc.first+=nex.second;
+    ll ans=1;
 
-        dfs(nex.first, visited, graph, cc);
+    for(auto nex: neighbours) {
+        if(nex.second!=maxw) continue;
+        ans += dfs(nex.first, visited, graph, maxw);
     }
 
+    return ans;
 }
 
 signed main() {
     cin.tie(nullptr)->sync_with_stdio(false);
-    ll n=1, m=1, a, b, w;
-    while(n!=0 || m!=0) {
-        cin >> n >> m;
-        
+    ll n, m, a, b, w;
+
+    cin >> n >> m;
+    while(n!=0 && m!=0) {
         vpll graph[n];
+
+        ll maxw=0;
         for(ll i=0; i<m; i++) {
             cin >> a >> b >> w;
             a--; b--;
-            graph[a].push_back(make_pair(b, w));
-            graph[b].push_back(make_pair(a, w));
+            maxw = max(maxw, w);
+            graph[a].push_back({b, w});
+            graph[b].push_back({a, w});
         }
 
         bool visited[n] = {false};
-        pll biggest_cc;
-        ll j=0;
+
+        // for(ll i=0; i<n; i++) {
+        //     for(auto par: new_graph[i]) {
+        //         cout << i << ' ' << par.first << ' ' << par.second << '\n';
+        //     }
+        // }
+
+        ll best_n=1;
         for(ll i=0; i<n; i++) {
             if(!visited[i]) {
-                pll cc = make_pair(j, 0);
-                dfs(i, visited, graph, cc);
-                if(!j)
-                    biggest_cc = cc;
-                else if(cc.first > biggest_cc.first)
-                    biggest_cc = cc;
-                j++;
+                ll ans = dfs(i, visited, graph, maxw);
+                best_n = max(best_n, ans);
             }
         }
 
-        cout << biggest_cc.second << '\n';
+        cout << best_n << '\n';
+        cin >> n >> m;
     }
 
     return 0;

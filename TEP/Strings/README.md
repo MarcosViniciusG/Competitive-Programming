@@ -32,9 +32,9 @@
 
     - [ ] [Codeforces Beta Round #70 (Div. 2) - Problem A: Haiku](https://codeforces.com/problemset/problem/78/A)
     - [X] [Help Far Away Kingdom](https://codeforces.com/problemset/problem/99/A)
-    - [ ] [Strings of Power](https://codeforces.com/problemset/problem/318/B)
-    - [ ] [Bear and Strings](https://codeforces.com/problemset/problem/385/B)
-    - [ ] [Codeforces Round #306 (Div. 2) - Problem A: Two Substrings](https://codeforces.com/problemset/problem/550/A)
+    - [X] [Strings of Power](https://codeforces.com/problemset/problem/318/B)
+    - [X] [Bear and Strings](https://codeforces.com/problemset/problem/385/B)
+    - [X] [Codeforces Round #306 (Div. 2) - Problem A: Two Substrings](https://codeforces.com/problemset/problem/550/A)
     - [ ] [Codeforces Round #344 (Div. 2) - Problem D: Messenger](https://codeforces.com/problemset/problem/631/D)
     - [ ] [Educational Codeforces Round 78 (Rated for Div. 2) - Problem A: Shuffle Hashing](https://codeforces.com/problemset/problem/1278/A)
     - [ ] [Educational Codeforces Round 9 - Problem C: The Smallest String Concatenation](https://codeforces.com/contest/632/problem/C)

@@ -9,17 +9,19 @@ using vpll = vector<pll>;
 
 #define endl '\n';
 
-signed main() {
-    cin.tie(nullptr)->sync_with_stdio(false);
-    ll L, R;
-    cin >> L >> R;
+ll counting(ll x) {
+    string place="";
+    string xs = to_string(x);
+    place += xs[0];
+    for(ll i=0; i<ll(xs.length())-1; i++) {
+        place += '0';
+    }
 
+    ll smallest_n = stoll(place);
+    
     ll result=0;
     for(ll i=1; i<=9; i++) {
-        for(ll j=10; (j*i)<=R; j*=10) {
-            if((j*i) < L)
-                continue;
-
+        for(ll j=10; (j*i)<smallest_n; j*=10) {
             ll pos=1;
             ll place=j/10;
             while(place > 0) {
@@ -30,26 +32,37 @@ signed main() {
         }
     }
 
-    string Rs = to_string(R);
-    ll most_sig = Rs[0] - '0';
-    ll prod=1;
-    for(int i=1; i<int(Rs.length()); i++)
-    {
-        ll new_most_sig = Rs[i] - '0';
-        cout << new_most_sig << '\n';
-
-        if(new_most_sig >= most_sig)
-            break;
+    place="";
+    place += xs[0];
+    bool activate=false;
+    for(ll i=1; i<ll(xs.length()); i++) {
+        if(xs[i] < xs[0] && !activate)
+            place += xs[i];
         else {
-            ll pro=new_most_sig-most_sig;
-            for(int j=i+1, pow10=1; j<int(Rs.length()); j++, pow10*=10) {
-                pro *= most_sig-1;
-            }
-            prod += pro;
+            activate = true;
+            place += xs[0]-1;
         }
     }
+
+    ll prod=1;
+    cout << place << '\n';
+    for(ll i=1; i<ll(place.length()); i++) {
+        prod *= (place[i]-'0')+1;
+    }
+    cout << prod << ' ' << result << '\n';
+
+    return result + prod;
+}
+
+signed main() {
+    cin.tie(nullptr)->sync_with_stdio(false);
+    ll L, R;
+    cin >> L >> R;
+
+    ll resultR = counting(R);
+    ll resultL = counting(L);
     
 
-    cout << result - prod << '\n';
+    cout << resultR - resultL + 1 << '\n';
     return 0;
 }

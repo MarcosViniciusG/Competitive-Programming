@@ -1,17 +1,20 @@
 #include <bits/stdc++.h>
 
 using namespace std;
+using vi = vector<int>;
 
 int main() {
+    cin.tie(nullptr)->sync_with_stdio(false);
     int T, R, C, M, N, W, xi, yi;
     cin >> T;
-    while (T--)
+    for(int i=0; i<T; i++)
     {
         cin >> R >> C >> M >> N;
         cin >> W;
 
         int grid[R][C] = {0};
-        bool visited[R][C] = {false};
+        bool visited[R][C];
+        memset(visited, false, sizeof(visited));
 
         for(int i=0; i<W; i++) {
             cin >> xi >> yi;
@@ -34,82 +37,70 @@ int main() {
             int i, j;
             
             int moves=0;
-            int squares=0;
-            for(i=x, moves=0; moves<M && i<R && grid[i][y]!=1; i++, moves++);
+
+            i = x+M;
+            j = y+N;
+            set<pair<int, int>> st;
+            if(i < R && j < C && grid[i][j]!=1) {
+                st.insert({i, j});
+            }
             
-            if(moves==M && i<R) {
-                for(j=y, moves=0; moves<N && j<R && grid[i][j]!=1; j++, moves++);  
-                if(moves==N && j<C) {
-                    squares++;
-                    q.push({i, j});
-                }
-
-                for(j=y, moves=0; moves<N && j>=0 && grid[i][j]!=1; j--, moves++);  
-                if(moves==N && j>=0) {
-                    squares++;
-                    q.push({i, j});
-                }
+            j = y-N;
+            if(i < R && j >= 0 && grid[i][j]!=1) {
+                st.insert({i, j});
             }
 
-            for(i=x, moves=0; moves<M && i>=0 && grid[i][y]!=1; i--, moves++);
+            i = x-M;
+            j = y+N;
+            if(i >= 0 && j < C && grid[i][j]!=1) {
+                st.insert({i, j});
+            }
+
+            j = y-N;
+            if(i >= 0 && j >=0 && grid[i][j]!=1) {
+                st.insert({i, j});
+            }
+
+            i = x+N;
+            j = y+M;
+            if(i < R && j < C && grid[i][j]!=1) {
+                st.insert({i, j});
+            }
             
-            if(moves==M && i>=0) {
-                for(j=y, moves=0; moves<N && j<C && grid[i][j]!=1; j++, moves++);  
-                if(moves==N && j<C) {
-                    squares++;
-                    q.push({i, j});
-                }
-
-                for(j=y, moves=0; moves<N && j>=0 && grid[i][j]!=1; j--, moves++);  
-                if(moves==N && j>=0) {
-                    squares++;
-                    q.push({i, j});
-                }
+            j = y-M;
+            if(i < R && j >= 0 && grid[i][j]!=1) {
+                st.insert({i, j});
             }
-
-            for(i=y, moves=0; moves<N && i<C && grid[x][i]!=1; i++, moves++);
             
-            if(moves==N && i<C) {
-                for(j=x, moves=0; moves<M && j<R && grid[j][i]!=1; j++, moves++);  
-                if(moves==M && j<C) {
-                    squares++;
-                    q.push({j, i});
-                }
-
-                for(j=x, moves=0; moves<M && j>=0 && grid[j][i]!=1; j--, moves++);  
-                if(moves==M && j>=0) {
-                    squares++;
-                    q.push({j, i});
-                }
+            i = x-N;
+            j = y+M;
+            if(i >= 0 && j < C && grid[i][j]!=1) {
+                st.insert({i, j});
             }
 
-            for(i=y, moves=0; moves<N && i>=0 && grid[x][i]!=1; i--, moves++);
-            
-            if(moves==N && i>=0) {
-                for(j=x, moves=0; moves<M && j<R && grid[j][i]!=1; j++, moves++);  
-                if(moves==M && j<C) {
-                    squares++;
-                    q.push({j, i});
-                }
-
-                for(j=x, moves=0; moves<M && j>=0 && grid[j][i]!=1; j--, moves++);  
-                if(moves==M && j>=0) {
-                    squares++;
-                    q.push({j, i});
-                }
+            j = y-M;
+            if(i >= 0 && j >=0 && grid[i][j]!=1) {
+                st.insert({i, j});
             }
 
-            if(squares!=0) {
-                if(squares & 1)
-                    odds++;
-                else
-                    evens++;
-            }
+            int squares = st.size();
+            for(auto par: st)
+                q.push(par);
 
-            cout << x << ' ' << y << ' ' << squares << '\n';
+            if(squares & 1)
+                odds++;
+            else if(squares!=0 || (x==0 && y==0))
+                evens++;
         }
 
-        cout << evens << ' ' << odds << '\n';
+        // for(int i=0; i<R; i++) {
+        //     for(int j=0; j<C; j++) {
+        //         cout << visited[i][j] << ' ';
+        //     }
+        //     cout << '\n';
+        // }
+
+        cout << "Case " << i+1 << ": " << evens << ' ' << odds << '\n';
     }
      
     return 0;

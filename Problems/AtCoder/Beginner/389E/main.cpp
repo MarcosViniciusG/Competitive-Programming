@@ -12,7 +12,7 @@ using vpll = vector<pll>;
 signed main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-
+    
 
     return 0;
 }

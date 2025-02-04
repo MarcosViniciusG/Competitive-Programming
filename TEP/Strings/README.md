@@ -38,7 +38,7 @@
     - [X] [Codeforces Round #344 (Div. 2) - Problem D: Messenger](https://codeforces.com/problemset/problem/631/D)
     - [X] [Educational Codeforces Round 78 (Rated for Div. 2) - Problem A: Shuffle Hashing](https://codeforces.com/problemset/problem/1278/A)
     - [X] [Educational Codeforces Round 9 - Problem C: The Smallest String Concatenation](https://codeforces.com/contest/632/problem/C)
-    - [ ] [Vasya and String](https://codeforces.com/contest/676/problem/C)
+    - [X] [Vasya and String](https://codeforces.com/contest/676/problem/C)
     - [ ] [Codeforces Round 527 (Div. 3) - Problem C: Prefixes and Suffixes](https://codeforces.com/contest/1092/problem/C)
     - [ ] [AtCoder Beginner Contest 141 - Problem E: Who Says a Pun?](https://atcoder.jp/contests/abc141/tasks/abc141_e)
     - [ ] [AtCoder Beginner Contest 043 - Problem D: Unbalanced](https://atcoder.jp/contests/abc043/tasks/arc059_b) 

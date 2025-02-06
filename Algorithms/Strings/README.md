@@ -622,6 +622,167 @@ int LCS(const string& S, const string& T)
 }
 ```
 
+## Longest Palindrome Subsequence
+$O(n^2)$
+```cpp
+ll dp(const string& s, ll i, ll j)
+{
+    if (i > j)
+        return 0;
+    
+    if(i==j)
+        return 1;
+
+    if(st[i][j] != -1)
+        return st[i][j]; 
+
+    st[i][j] = max(dp(s, i + 1, j), dp(s, i, j - 1));
+
+    if(s[i] == s[j])
+        st[i][j] = max(st[i][j], dp(s, i+1, j-1) + 2);
+
+    return st[i][j];
+}
+```
+
+### Recuperation of LPS
+$O(n^2)$
+```cpp
+ll dp(const string& s, ll i, ll j)
+{
+    if (i > j)
+        return 0;
+    
+    if(i==j) {
+        ps[i][j] = 'K';
+        return 1;
+    }
+
+    if(st[i][j] != -1)
+        return st[i][j]; 
+
+    st[i][j] = max(dp(s, i + 1, j), dp(s, i, j - 1));
+    ps[i][j] = dp(s, i+1, j) > dp(s, i, j-1) ? 'L' : 'R';
+
+    if(s[i] == s[j]) {
+        st[i][j] = max(st[i][j], dp(s, i+1, j-1) + 2);
+        ps[i][j] = st[i][j] > dp(s, i+1, j-1) + 2 ? ps[i][j] : 'B';
+    }
+
+    return st[i][j];
+}
+
+string lps(const string& s)
+{
+    memset(st, -1, sizeof(st));
+    memset(ps, 0, sizeof(ps));
+
+    ll n = s.length();
+
+    dp(s, 0, n-1);
+
+    ll i=0, j=n-1;
+    string L = "", R="";
+
+    while(i <= j)
+    {
+        auto p = ps[i][j];
+        switch(p) {
+            case 'L':
+                i++;
+                break;
+            
+            case 'R':
+                j--;
+                break;
+            
+            case 'K':
+                L += s[i];
+                i++;
+                break;
+            
+            default:
+                L += s[i]; R = s[i] + R;
+                i++; j--;
+                break;
+        }
+    }
+
+    return L+R;
+}
+```
+
+## Tries
+- It's the graph $G$ that represents all the substring of s, which labels are made of only one character
+- Black nodes are essential nodes
+- The numbers besides the essential nodes are the indexes of the initial character of the suffix
+
+### Building 
+$O(|T_n|)$
+```cpp
+using Node = map<char, ll>;
+using Trie = vector<Node>;
+
+Trie build(const string& s)
+{
+    ll next=0, deepest=0;
+    string S = s+'#';
+    vll suf {-1};
+    Trie trie(1);
+
+    for(size_t i=0; i<S.size(); i++)
+    {
+        char c = S[i];
+        ll u = deepest;
+
+        while(u >= 0)
+        {
+            auto it = trie[u].find(c);
+
+            if(it == trie[u].end())
+            {
+                trie.push_back({ });
+                trie[u][c] = ++next;
+
+                suf.push_back(0);
+
+                if(u != deepest)
+                    suf[next-1] = next;
+                else
+                    deepest = next;
+            }
+            else
+            {
+                suf[next] = it->second;
+                break;
+            }
+            u = suf[u];
+        }
+    } 
+
+    return trie;
+}
+```
+
+### Search
+$O(m)$
+```cpp
+bool search(const Trie& trie, const string& s) {
+    ll v=0;
+
+    for(auto c: s)
+    {
+        auto it = trie[v].find(c);
+
+        if(it==trie[v].end())
+            return false;
+        
+        v = it->second;
+    }
+
+    return true;
+}
+```
 
 ## Remarkable strings
 

@@ -516,6 +516,113 @@ string edit_operations(const string&s, const string& t)
 }
 ```
 
+## Longest Common Subsequence
+
+### $O(nm)$ complexity
+```cpp
+vector<vector<char>> ps(2000, vector<char> (2000));
+vector<vector<int>> st(2000, vector<int> (2000));
+
+string LCS(const string& s, const string& t)
+{
+    const int c_i = 0, c_r = 0, c_s = 1;
+    int m = s.size(), n = t.size();
+
+    for(int i = 0; i <= m; i++)
+    {
+        st[i][0] = i*c_r;
+        ps[i][0] = 'r';
+    }
+
+    for(int j = 1; j <= n; j++)
+    {
+        st[0][j] = j*c_i;
+        ps[0][j] = 'i';
+    }
+
+    for(int i = 1; i <= m; i++)
+        for(int j = 1; j <= n; j++)
+        {
+            int insertion = st[i][j - 1] + c_i, deletion = st[i - 1][j] + c_r;
+            int change = st[i - 1][j - 1] + c_s*(s[i - 1] == t[j - 1] ? 1 : -oo);
+            st[i][j] = max({ insertion, deletion, change });
+            ps[i][j] = (insertion >= deletion and insertion >= change) ? 
+            'i' : (deletion >= change ? 'r' : 's');
+        }
+
+        int i = m, j = n;
+        string b;
+
+        while(i or j)
+        {
+            switch(ps[i][j])
+            {
+                case 'i':
+                    j--;
+                    break;
+
+                case 'r':
+                    i--;
+                    break;
+
+                case 's':
+                    if(s[i - 1] == t[j - 1])
+                        b.push_back(s[i - 1]);
+                    i--;
+                    j--;
+            }
+        }
+
+    reverse(b.begin(), b.end());
+
+    return b;
+}
+```
+
+### Longest Increasing Subsequence (LIS)
+
+```cpp
+int LIS(const vector<int>& as)
+{
+    vector<int> st(as.size(), -1);
+    int n = 0;
+
+    for(auto x : as)
+    {
+        if(x > st[n])
+            st[n++] = x;
+        else
+        {
+            auto it = lower_bound(st.begin() + 1, st.begin() + n, x);
+            *it = min(*it, x);
+        }
+    }
+
+    return n;
+}
+
+int LCS(const string& S, const string& T)
+{
+    map<char, int> idx;
+
+    for(size_t i = 0; i < T.size(); i++)
+        idx[T[i]] = i;
+
+    vector<int> bs;
+
+    for(const auto& c : S)
+    {
+        auto it = idx.find(c);
+
+        if(it != idx.end())
+            bs.push_back(it->second);
+    }
+
+    return LIS(bs);
+}
+```
+
+
 ## Remarkable strings
 
 ### Fibonacci strings

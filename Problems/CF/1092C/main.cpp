@@ -6,10 +6,11 @@ using vll = vector<ll>;
 using pll = pair<ll, ll>;
 using vpll = vector<pll>;
 
+int n;
+
 signed main()
 {
     cin.tie(nullptr)->sync_with_stdio(false);
-    int n;
     cin >> n;
 
     priority_queue<pair<ll, string>> pq;
@@ -23,117 +24,80 @@ signed main()
         v.push_back(s);
     }
 
-    set<string> pre;
-    set<string> suff;
-
-    string u_suff = pq.top().second;
+    string u1 = pq.top().second;
     ll len = pq.top().first;
     pq.pop();
 
-    string u_pre = pq.top().second;
+    string u2 = pq.top().second;
     pq.pop();
 
-    pre.clear();
-    suff.clear();
-    for (ll i = 0; i < len; i++)
-    {
-        pre.insert(u_pre.substr(0, i + 1));
-        suff.insert(u_suff.substr(i, len - i));
-    }
-
-    int sn = 0, pn = 0;
-
-    vector<string> ans;
-    set<ll> slens, plens;
-    for (int i = 0; i < (2 * n - 2); i++)
-    {
-        auto it_pre = pre.find(v[i]);
-        auto it_suff = suff.find(v[i]);
-        if (it_pre != pre.end() && it_suff != suff.end())
-        {
-            ll l = v[i].length();
-            if (slens.find(l) == slens.end())
-            {
-                slens.insert(l);
-                ans.push_back("S");
-            }
-            else
-            {
-                plens.insert(l);
-                ans.push_back("P");
-            }
+    // u1 is the prefix and u2 is the suffix
+    string guess1 = u1[0] + u2;
+    set<ll> lens;
+    vector<char> ans1;
+    for(ll i=0; i<(2*n-2); i++) {
+        bool is_pre=false;
+        for(ll j=1; j<=n; j++) {
+            if(v[i]==guess1.substr(0, j))
+                is_pre = true;
         }
-        else if (it_pre != pre.end())
-        {
-            pn++;
-            ans.push_back("P");
+
+        bool already=false;
+        if(is_pre && lens.find(ll(v[i].length())) == lens.end()) {
+            ans1.push_back('P');
+            lens.insert(ll(v[i].length()));
+            already=true;
         }
-        else if (it_suff != suff.end())
-        {
-            sn++;
-            ans.push_back("S");
+
+        bool is_suf=false;
+        for(ll j=n-1; j>0; j--) {
+            if(v[i]==guess1.substr(j, n-j))
+                is_suf = true;
+        }
+
+        if((is_suf && !is_pre) || (is_suf && is_pre && !already)) {
+            ans1.push_back('S');
         }
     }
 
-    if (ll(ans.size()) != (2 * n - 2))
-    {
-        string place = u_suff;
-        u_suff = u_pre;
-        u_pre = place;
-
-        for (ll i = 0; i < len; i++)
-        {
-            pre.insert(u_pre.substr(0, i + 1));
-            suff.insert(u_suff.substr(i, len - i));
+    string guess2 = u2[0] + u1;
+    lens.clear();
+    vector<char> ans2;
+    for(ll i=0; i<(2*n-2); i++) {
+        bool is_pre=false;
+        for(ll j=1; j<=n; j++) {
+            if(v[i]==guess2.substr(0, j))
+                is_pre = true;
         }
 
-        sn = 0; pn = 0;
-
-        ans.clear();
-        slens.clear(); plens.clear();
-        for (int i = 0; i < (2 * n - 2); i++)
-        {
-            auto it_pre = pre.find(v[i]);
-            auto it_suff = suff.find(v[i]);
-            if (it_pre != pre.end() && it_suff != suff.end())
-            {
-                ll l = v[i].length();
-                if (slens.find(l) == slens.end())
-                {
-                    slens.insert(l);
-                    ans.push_back("S");
-                }
-                else
-                {
-                    plens.insert(l);
-                    ans.push_back("P");
-                }
-            }
-            else if (it_pre != pre.end())
-            {
-                pn++;
-                ans.push_back("P");
-            }
-            else if (it_suff != suff.end())
-            {
-                sn++;
-                ans.push_back("S");
-            }
+        bool already=false;
+        if(is_pre && lens.find(ll(v[i].length())) == lens.end()) {
+            ans2.push_back('P');
+            lens.insert(ll(v[i].length()));
+            already=true;
         }
 
-        for(auto e: ans)
+        bool is_suf=false;
+        for(ll j=n-1; j>0; j--) {
+            if(v[i]==guess2.substr(j, n-j))
+                is_suf = true;
+        }
+
+        if((is_suf && !is_pre) || (is_suf && is_pre && !already)) {
+            ans2.push_back('S');
+        }
+    }
+
+    if(ll(ans1.size())==(2*n - 2)) {
+        for(auto e: ans1)
             cout << e;
-        cout << '\n';
     }
-    else
-    {
-
-        for (auto e : ans)
-        {
+    else {
+        for(auto e: ans2)
             cout << e;
-        }
-        cout << '\n';
     }
+
+    cout << '\n';
 
     return 0;
 }

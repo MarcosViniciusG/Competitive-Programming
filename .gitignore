@@ -434,4 +434,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Zone identifier
-*:Zone.Identifier
+**/*.Identifier

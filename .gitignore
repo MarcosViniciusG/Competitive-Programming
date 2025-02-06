@@ -432,3 +432,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Zone identifier
+*:Zone.Identifier

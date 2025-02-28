@@ -33,10 +33,10 @@ signed main() {
             ll mid = (l + r)/2;
             while(r - l > 1) {
                 mid = (l + r)/2;
-                if(b[mid] - a[i] >= a[i-1])
-                    r = mid;
-                else
+                if(b[mid] - a[i] < a[i-1])
                     l = mid;
+                else
+                    r = mid;
             }
 
             mid = (l+r)/2;

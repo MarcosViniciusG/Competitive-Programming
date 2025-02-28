@@ -1,0 +1,64 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstdefinestyle{cppStyle}{
+  language=C++,
+  basicstyle=\ttfamily\small,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=10pt,
+  backgroundcolor=\color{white},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  frame=single,
+  tabsize=4,
+  breaklines=true,
+  breakatwhitespace=false,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{red},
+}
+
+\begin{document}
+\tableofcontents 
+
+\section{Template}
+
+\section{Graphs}
+\subsection{DFS}
+$O(n+m)$
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/dfs/main.cpp}
+
+\subsection{BFS}
+$O(n+m)$
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/bfs/main.cpp}
+
+\subsubsection{Shortest path on unweighted graph}
+$O(n+m)$
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/bfs/shortest_path_unweighted/main.cpp}
+
+\subsection{Flood Fill}
+$O(n+m)$
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/flood_fill/main.cpp};
+
+\subsection{Topological Sort (Directed Acyclic Graph)}
+\subsubsection{DFS Variation}
+$O(n+m)$
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/topological_sort/dfs/main.cpp}
+
+\subsubsection{Kahn's Algorithm}
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/topological_sort/kahn/main.cpp}
+
+\subsection{Bipartite Graph Check (Undirected Graph)}
+$O(n+m)$
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/bipartite_graph_check/main.cpp}
+
+\subsection{Cycle Check (Directed Graph)}
+$O(n+m)$
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/cycle_check/main.cpp}
+
+\end{document}

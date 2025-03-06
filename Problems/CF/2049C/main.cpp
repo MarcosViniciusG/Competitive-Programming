@@ -17,13 +17,14 @@ signed main()
         cin >> n >> x >> y;
         x--; y--;
         vi color(n);
-        color[x+0] = 0;
 
-        for(ll i=1; i<n; i++) {
-            color[(i+x) % n] = abs(1 - color[(x+i-1)%n]);
+        int i = 0;
+        while(i != n) {
+            color[(x+i) % n] = i % 2;
+            i++;
         }
 
-        if(n & 1 || !((x-y) & 1))
+        if((n & 1) || (y - x) % 2 == 0)
             color[x] = 2;
 
         for(auto c: color)

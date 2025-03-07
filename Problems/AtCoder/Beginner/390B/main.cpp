@@ -16,16 +16,13 @@ signed main() {
     ll a[n];
 
     bool can = true;
-    double ratio;
-    for(ll i=0; i<n; i++) {
+    for(ll i=0; i<n; i++) 
         cin >> a[i];
-        if(i==1) {
-            ratio = a[1] / double(a[0]);
-        }
-        else if(i>1 && ratio != a[i]) 
-            can = false;
-    }
+
+    for(ll i=1; i<n-1; i++)
+        can = can && (a[i]*a[i] == a[i-1] * a[i+1]);
 
     cout << (can ? "Yes" : "No") << '\n';
+
     return 0;
 }

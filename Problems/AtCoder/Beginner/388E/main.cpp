@@ -10,7 +10,7 @@ using vpll = vector<pll>;
 #define endl '\n';
 
 signed main() {
-    // cin.tie(nullptr)->sync_with_stdio(false);
+    cin.tie(nullptr)->sync_with_stdio(false);
     ll N, Ai;
     cin >> N;
     vll A;
@@ -19,20 +19,20 @@ signed main() {
         A.push_back(Ai);
     }
 
-    ll a=1, b=N;
+    ll a=-1, b=N;
     ll best=0;
-
     while(b - a > 1) {
         bool bl = true;
-        ll ans= (b-a) / 2;
-        cout << a << ' ' << b << ' ' << ans << '\n';
-        for(ll i=0; i<ans; i++) {
-            if(A[i]*2 > A[N-ans+i])
+        ll ans= (b+a) / 2;
+        if(ans > N/2)
+            break;
+
+        for(ll i=0; i<=ans; i++)
+            if(A[i] * 2 > A[(N-ans) + i - 1])
                 bl = false;
-        }
 
         if(bl) {
-            best = max(best, ans);
+            best = max(best, ans+1);
             a = ans;
         }
         else {

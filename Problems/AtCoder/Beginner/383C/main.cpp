@@ -8,80 +8,54 @@ using vpll = vector<pll>;
 
 int H, W, D;
 char S[1001][1001];
-bool visited[1001][1001] = {0};
 
-int dir_x[] = {0, 0, 1, -1};
-int dir_y[] = {1, -1, 0, 0};
- 
-bool isValid(int i, int j) {
-    if(i < 0 || i >= H) return false;
-    if(j < 0 || j >= W) return false;
-    if(visited[i][j]) return false;
-    if(S[i][j]=='#') return false;
-
-    return true;
-}
-
-void bfs(ll starty, ll startx) {
-    queue<pll> q;
-    q.push({starty, startx});
-    visited[starty][startx] = true;
-
-    ll d=D;
-    while(!q.empty() && d>0) {
-        pll par = q.front(); q.pop();
-        ll i = par.first;
-        ll j = par.second;
-
-        for(ll w=0; w<4; w++) {
-            ll adjy = i + dir_y[w];
-            ll adjx = j + dir_x[w];
-
-            if(isValid(adjy, adjx)) {
-                q.push({adjy, adjx});
-                visited[adjy][adjx] = true;
-            }
-        }
-        d--;
-    }
-}
+int dirx[] = {0, 0, 1, -1};
+int diry[] = {1, -1, 0, 0};
+bool visited[1001][1001];
 
 signed main() {
     cin.tie(nullptr)->sync_with_stdio(false);
     cin >> H >> W >> D;
-    queue<pll> q;
+    queue<pair<ll, pll>> q;
     for(int i=0; i<H; i++) {
         for(int j=0; j<W; j++) {
             cin >> S[i][j];
             if(S[i][j]=='H') {
-                q.push(make_pair(i, j));
-                visited[i][j] = true;
+                q.push({0, {i, j}});
             }
         }
     }
 
+    memset(visited, false, sizeof(visited));
+
+    // BFS
     while (!q.empty())
     {
-        pll par = q.front(); q.pop();
-        ll i =par.first;
-        ll j = par.second;
-        bfs(i, j);
-    }
-    
-    int soma=0;
-    for(int i=0; i<H; i++) {
-    for(int j=0; j<W; j++) {
-        if(visited[i][j]) {
-            cout << '-';
-            soma++;
+        pair<ll, pll> u = q.front(); q.pop();
+        ll dis = u.first;
+        ll i = u.second.first;
+        ll j = u.second.second;
+
+        visited[i][j] = true;
+        for(int k=0; k<4; k++) {
+            ll ni = i+diry[k], nj = j+dirx[k];
+            if(ni >= H || ni < 0) continue;
+            if(nj >= W || nj < 0) continue;
+            if(S[ni][nj]!='.') continue;
+            if(dis + 1 > D) continue;
+            if(visited[ni][nj]) continue;
+
+            q.push({dis+1, {ni, nj}});
         }
-        else
-            cout << S[i][j];
-        }
-    cout << '\n'; 
     }
 
-    cout << soma <<'\n';
+    ll ans=0;
+    for(ll i=0; i<H; i++)
+    for(ll j=0; j<W; j++)
+        if(S[i][j] != '#' && visited[i][j])
+            ans++;
+
+    cout << ans <<'\n';
 
     return 0;
 }

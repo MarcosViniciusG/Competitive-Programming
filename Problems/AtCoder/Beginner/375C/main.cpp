@@ -14,33 +14,27 @@ int main() {
         }
     }
 
-    char grid_cp[N][N];
+    char ans[N][N];
 
-    for(int i=0; i<(N/2); i++) {
-
+    for(int i=0; i<N; i++) {
         for(int j=0; j<N; j++) {
-            for(int k=0; k<N; k++) {
-                grid_cp[j][k] = grid[j][k];
-            }
+            // Number of times that the op will be repeated
+            // After fours times, it repeats
+            int c = min({i+1, j+1, N-i, N-j}) % 4;
+            if(c==0)
+                ans[i][j] = grid[i][j];
+            else if(c==1)
+                ans[j][N-i-1] = grid[i][j];
+            else if(c==2)
+                ans[N-1-i][N-j-1] = grid[i][j];
+            else if(c==3)
+                ans[N-j-1][i] = grid[i][j];
         }
-
-        for(int j=i; j<(N-i); j++) {
-            for(int k=i; k<(N-i); k++) {
-                grid_cp[k][N-j-1] = grid[j][k]; 
-            }
-        }
-        
-        for(int j=0; j<N; j++) {
-            for(int k=0; k<N; k++) {
-                grid[j][k] = grid_cp[j][k];
-            }
-        }
-
     }
 
     for(int j=0; j<N; j++) {
         for(int k=0; k<N; k++) {
-            cout << grid[j][k];
+            cout << ans[j][k];
         }
         cout << endl;
     }

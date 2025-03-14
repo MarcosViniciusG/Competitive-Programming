@@ -63,7 +63,7 @@ char backtrack(vector<vector<char>> game, bool r, ll scorer, ll scoreb) {
     for(int k=0; k<3; k++) {
         for(int w=0; w<3; w++) {
             // Always take the board where the current player
-            // is the winner
+            // is the winner (play optimally)
             if(game[k][w]=='W') {
                 if(r) {
                     game[k][w]='R';

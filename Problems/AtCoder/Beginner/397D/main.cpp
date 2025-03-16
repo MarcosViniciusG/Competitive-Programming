@@ -10,10 +10,11 @@ using ll = long long;
 #define all(xs) xs.begin() , xs.end()
 #define found(x,xs) (xs.find(x) != xs.end())
 
-const ll MAXN = ll(1LL << 62); 
+const ll MAXN = ll(1LL << 31); 
 
-ll cubed(ll x) {
-    return x*x*x;
+ll f(ll d, ll y, ll N)
+{
+    return (d*d) - N + (3*d*y) + (3*y*y); 
 }
 
 signed main() {
@@ -21,16 +22,26 @@ signed main() {
     ll N;
     cin >> N;
 
-    map<ll, ll> root;
-    for(ll x=1; N-cubed(x)>=-MAXN; x++) {
-        root[N-cubed(x)] = x;
-    }
-
     ll ans1=-1, ans2=-1;
-    for(ll y=1; cubed(y)<=MAXN; y++) {
-        if(found(-cubed(y), root)) {
-            ans1 = root[-cubed(y)];
-            ans2 = y;
+    ll d=1;
+    for(d=d; d*d*d<=N*2; d++) {
+        ll l=1;
+        ll r=600000001;
+
+        if(N % d != 0)
+            continue;
+
+        while(r-l>1) {
+            ll m = (l+r)/2;
+            if(f(d, m, N/d)>0) 
+                r = m;
+            else 
+                l = m;
+        }
+
+        if(f(d, l, N/d)==0) {
+            ans1 = l+d;
+            ans2 = l;
             break;
         }
     }

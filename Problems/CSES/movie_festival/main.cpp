@@ -18,17 +18,16 @@ signed main() {
     vpll movies;
     for(ll i=0; i<n; i++) {
         cin >> a >> b;
-        movies.push_back({a, b});
+        movies.push_back({b, a});
     }
 
     sort(movies.begin(), movies.end());
     ll ans=1;
-    ll e = movies[0].second;
+    ll e = movies[0].first;
     ll watched=1;
     for(ll i=1; i<n; i++) {
-        //cout << movies[i].first << ' ' << movies[i].second << '\n';
-        if(movies[i].first >= e) {
-            e = movies[i].second;
+        if(movies[i].second >= e) {
+            e = movies[i].first;
             watched++;
         }
 

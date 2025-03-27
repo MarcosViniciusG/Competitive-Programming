@@ -8,26 +8,22 @@ using vpll = vector<pll>;
 
 #define MAXN 10000000
 
-ll distinctPrimeFactors(int N)
-{
-    if (N < 2) {
-        cout << -1;
-    }
- 
-    int c = 2;
-    unordered_map<int, bool> visited;
- 
-    while (N > 1) {
-        if (N % c == 0) {
-            if (!visited[N]) {
-                visited[N] = 1;
-            }
-            N /= c;
+ll solve(ll n) {
+    vll primes;
+    vector<bool> isPrime(n+1, true);
+    isPrime[0] = isPrime[1] = false;
+
+    ll ans=0;
+    for(ll i=2; i<=n; i++) {
+        if(isPrime[i]) {
+            ans += n/i;
+            if(i*i <= n)
+                for(ll j=i*i; j<=n; j+=i) 
+                    isPrime[j] = false;
         }
-        else
-            c++;
     }
-    return c;
+
+    return ans;
 }
 
 signed main() {
@@ -38,16 +34,7 @@ signed main() {
     while(t--) {
         ll n;
         cin >> n;
-
-        ll ans=0;
-        for(ll i=2; i<=n; i++) {
-            ll lk = distinctPrimeFactors(i);
-            if(lk==2)   
-                ans += lk-1;
-            else
-                ans += lk-2;
-
-        }
+        ll ans = solve(n);
 
         cout << ans << '\n';
     }

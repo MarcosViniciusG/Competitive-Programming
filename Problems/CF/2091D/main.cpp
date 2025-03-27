@@ -14,18 +14,20 @@ signed main() {
     while(t--) {
         ll n, m, k;
         cin >> n >> m >> k;
-        
-        ll lmt = ceil(m / 2.0);
-        ll cols = ceil((double)k / double(n));
 
-        ll ans=1;
-        if(cols==m)
-            ans=m;
-        else if(cols > lmt) {
-            ans = cols-lmt+1;
+        ll l=0;
+        ll r=m;
+
+        while(r-l > 1) {
+            ll mid = (r+l)/2;
+
+            if(k <= n*(mid*(m/(mid+1)) + (m % (mid+1))))
+                r = mid;
+            else
+                l = mid;
         }
 
-        cout << ans << '\n';
+        cout << l+1 << '\n';
     }
 
     return 0;

@@ -1,44 +1,40 @@
 #include <bits/stdc++.h>
+
 using namespace std;
 
-using ll = long long;
-#define vll vector<ll>
-#define pll pair<ll,ll>
-#define vpll vector<pll>
-#define endl '\n'
-#define fastio ios::sync_with_stdio(0); cin.tie(0); cout.tie(0)
-#define all(xs) xs.begin() , xs.end()
-#define found(x,xs) (xs.find(x) != xs.end())
-
-#define MAXN 200001
-
-signed main() {
-    fastio;
-    ll N, R, C;
+int main()
+{
+    int N, R, C;
+    cin >> N >> R >> C;
+    
     string S;
-    cin >> N >> R >> C >> S;
-
-    map<char, pll> keys;
-    keys['N'] = {-1, 0};
-    keys['W'] = {0, -1};
-    keys['S'] = {1, 0};
-    keys['E'] = {0, 1};
-
+    cin >> S;
+    
+    map<char, pair<int,int>> mp;
+    mp['N'] = {-1, 0};
+    mp['W'] = {0, -1};
+    mp['S'] = {1, 0};
+    mp['E'] = {0, 1};
+    
+    set<pair<int, int>> pos;
+    int deltax=0;
+    int deltay=0;
+    pos.insert({0, 0});
     string ans="";
-    pll delta[N+1];
-    delta[0] = {0,0};
-    for(ll i=1; i<=N; i++) {
-        bool can=false;
-        delta[i].first = delta[i-1].first + keys[S[i]].first;
-        delta[i].second = delta[i-1].second + keys[S[i]].second;
-
-
-        if(!can)
-            ans+='0';
+    for(auto c: S) {
+        deltay += -mp[c].first;
+        deltax += -mp[c].second;
+        
+        R += -mp[c].first;
+        C += -mp[c].second;
+        
+        pos.insert({deltay, deltax});
+        if(pos.find({R, C})!=pos.end())
+            ans += '1';
         else
-            ans+='1';
-
+            ans += '0';
     }
+    
     cout << ans << '\n';
 
     return 0;

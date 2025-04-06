@@ -10,14 +10,6 @@ using ll = long long;
 #define all(xs) xs.begin() , xs.end()
 #define found(x,xs) (xs.find(x) != xs.end())
 
-ll result(vll &p, ll x) {
-    ll res=0;
-   for(auto e: p) 
-        res += (x-e);
-
-    return res;
-}
-
 ll ans(vll &p, ll x) {
     ll res=0;
     for(auto e: p)
@@ -27,38 +19,18 @@ ll ans(vll &p, ll x) {
 }
 
 signed main() {
-    // fastio;
+    fastio;
     ll n;
     cin >> n;
 
     vll p(n);
-    ll mx=0;
-    ll mn=(ll)1e18;
-    ll soma=0;
     for(ll &i: p) {
         cin >> i;
-        mx = max(mx, i);
-        mn = min(mn, i);
-        soma+=i;
     }
 
-    ll media = soma/n;
-    ll r=mx;
-    ll l=mn;
-    ll m = (r+l)/2;
-    ll prev = result(p, media);
-    while(r-l>1) {
-        ll m=(l+r)/2;
-        if(result(p, m) > prev)
-            r = m;
-        else
-            l = m;
-        prev = result(p, m);
-    }
-
-    cout << mx << " " << mn << "\n";
-    cout << r << ' ' << l << "\n";
-    cout << min({ans(p, l), ans(p, r)}) << '\n';
+    sort(all(p));
+    
+    cout << ans(p, p[n/2])  << '\n';
 
     return 0;
 }

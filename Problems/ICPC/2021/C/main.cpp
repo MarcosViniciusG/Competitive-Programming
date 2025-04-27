@@ -30,28 +30,37 @@ signed main()
     ll nov=0;
     for(int i = 0; i < l; i++)
     {
-        ll pot = binexp(b, -i-1);
+        ll pot = binexp(b, l-i-1);
         ll res = (pot*d[i]) % (b+1);
         nov += res;
         nov %= (b+1);        
     }
 
-    if(nov % (b+1)==0) 
+    if(nov % (b+1)==0) {
         cout << "0 0" << '\n';
+        return 0;
+    }
 
-    ll asn
-    for(int i = 0; i < d.size(); i++)
+    ll ansi=-1;
+    ll ans=-1;
+    for(int i = 0; i < l; i++)
     {
-        ll pot = binexp(b, d.size()-i-1);
-        ll temp = nov;
-        nov -= pot;
-        if(nov % (b+1) == 0)
-            nov += res;
-        nov %= (b+1);        
+        ll pot = binexp(b, l-i-1);
+        ll res = (pot*d[i]) % (b+1);
+        if((nov-res) % (b+1) == 0) {
+            ansi = i+1;
+            ans = 0;
+            break;
+        }
+        if((d[i]-1)>=0 && (nov-pot) % (b+1) == 0) {
+            ansi = i+1;
+            ans = d[i]-1;
+            break;
+        }
     }
 
 
-    cout << nov << '\n';
+    cout << ansi << ' ' << ans << '\n';
 }
 
 // 2 3 4 5 6 9 mod 11 = 4

@@ -13,12 +13,18 @@ signed main() {
 
     cin >> n >> a >> b;
 
-    long double dp(n+1, 1);
-
-    long double m = long double(1)/long double(b-a+1);
+    vector<double> dp(n+1, 1.0);
+    
+    double m = double(1)/double(b-a+1);
     for(ll i=a+1; i<=n; i++) {
-        dp[i] = 
-    }
+        double sum=0;
+        for(ll k=a; k<=b; k++) {
+            sum += dp[i-k];           
+        } 
 
-    cout << dp[n] << '\n';
+        sum++;
+        dp[i] = (sum * m); 
+    } 
+
+    cout << setprecision(10) << dp[n] << '\n';
 }

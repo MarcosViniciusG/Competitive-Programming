@@ -1,5 +1,5 @@
 ll MSR(ll n, ll m, const vvll &a) {
-    ll ans = INFINITY;
+    ll ans = -LLONG_MAX;
 
     for(ll i=0; i<m; i++) {
         vll r(n+1, 0);

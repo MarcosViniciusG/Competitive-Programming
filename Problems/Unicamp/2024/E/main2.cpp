@@ -49,17 +49,12 @@ pair<bool, vll> solve(vll v, ll n, ll k) {
     ll i=0;
 
     vll coef;
-    for(;(i+1)<n; i+=2) {
+    for(;(i+1)<n; i++) {
         ll g = gcd(v[i], v[i+1]);
         xs.push_back(g);
         auto [x, y, d] = diophantine(v[i], v[i+1], g);
         coef.push_back(x);
         coef.push_back(y);
-    }
-
-    if(n & 1) {
-        xs.push_back(v[n-1]);
-        coef.push_back(1);
     }
 
     // cout << n << ": ";
@@ -72,16 +67,21 @@ pair<bool, vll> solve(vll v, ll n, ll k) {
 
     ll j=0;
     for(ll i=0; i<m; i++) {
-        if(j+1 < n) {
-            coef[j] *= new_coef[i];
-            coef[j+1] *= new_coef[i];
-        }
-        else if(j < n)
-            coef[j] *= new_coef[i];
+        coef[j] *= new_coef[i];
+        ll temp = coef[j+1] * new_coef[i];
+        coef[j+1] = temp;
+
         j+=2;
     }
 
-    return {ver, coef};
+    vll last_coef(n, 0);
+    last_coef[0] = coef[0];
+    last_coef[n-1] = coef[coef.size()-1]; 
+    for(ll i=1; i<coef.size()-1; i+=2) {
+        last_coef[(i+1) / 2] = coef[i] + coef[i+1]; 
+    }
+
+    return {ver, last_coef};
 }
 
 signed main() {
@@ -97,32 +97,16 @@ signed main() {
             cin >> x;
             xs.push_back(x);
         }
-        // auto [ver, new_coef] = solve(xs, n, k);
-        // if(ver) {
-        //     cout << "YES\n";
-        //     for(ll i=0; i<n; i++) {
-        //         cout << new_coef[i];
-        //         if(i!=n-1) cout << ' ';
-        //     }
-        //     cout << '\n';
-        // }
-        // else
-        //     cout << "NO\n";
-
-        vll ans(n ,0);
-        for(ll i=0; i<n; i++) {
-            for(ll j=i; j<n; j++) {
-                auto [x, y, d] = diophantine(xs[i], xs[j], k);
-                if(x!= LLONG_MAX) {
-                    ans[i] = x;
-                    ans[j] = y;
-                }
+        auto [ver, new_coef] = solve(xs, n, k);
+        if(ver) {
+            cout << "YES\n";
+            for(ll i=0; i<new_coef.size(); i++) {
+                cout << new_coef[i];
+                if(i!=new_coef.size()-1) cout << ' ';
             }
+            cout << '\n';
         }
-        
-        for(auto e: ans)
-            cout << e << ' ';
-        cout << '\n';
-        
+        else
+            cout << "NO\n";        
     }
 }

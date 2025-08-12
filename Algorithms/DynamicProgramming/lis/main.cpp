@@ -1,39 +1,25 @@
-vector<int> LIS(int N, const vector<int>& xs)
-{
-    vector<int> lis(N, 1), ps(N, -1);
-
-    for(int i = 1; i < N; i++)
-    {
-        for(int j = i - 1; j >= 0; j--)
-        {
-            if(xs[i] > xs[j] and lis[j] + 1 > lis[i])
-            {
-                lis[i] = lis[j] + 1;
-                ps[i] = j;
-            }
-        }
+/**
+ *  @param  xs      Target Vector.
+ *  @param  values  True if want values, indexes otherwise.
+ *  @return         Longest increasing subsequence as values or indexes.
+ *  https://judge.yosupo.jp/problem/longest_increasing_subsequence
+ *  source: Yogi Nam
+ *  Time complexity: O(Nlog(N))
+*/
+vll lis(const vll& xs, bool values) {
+    assert(!xs.empty());
+    vll ss, idx, pre(xs.size()), ys;
+    for(ll i=0; i<xs.size(); i++) {
+        // change to upper_bound if want not decreasing
+        ll j = lower_bound(all(ss), xs[i]) - ss.begin();
+        if (j == ss.size()) ss.eb(), idx.eb();
+        if (j == 0) pre[i] = -1;
+        else        pre[i] = idx[j - 1];
+        ss[j] = xs[i], idx[j] = i;
     }
-
-    int best = 0, k = -1;
-
-    for(int i = 0; i < N; i++)
-    {
-        if(lis[i] > best)
-        {
-            best = lis[i];
-            k = i;
-        }
-    }
-
-    vector<int> ans;
-
-    do
-    {
-        ans.emplace_back(xs[k]);
-        k = ps[k];
-    } while(k != -1);
-
-    reverse(ans.begin(), ans.end());
-
-    return ans;
+    ll i = idx.back();
+    while (i != -1)
+        ys.eb((values ? xs[i] : i)), i = pre[i];
+    reverse(all(ys));
+    return ys;
 }

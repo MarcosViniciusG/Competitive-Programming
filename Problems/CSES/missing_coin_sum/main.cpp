@@ -10,26 +10,31 @@ using ll = long long;
 #define all(xs) xs.begin() , xs.end()
 #define found(x,xs) (xs.find(x) != xs.end())
 
+vll xs;
+ll n;
+
 signed main() {
-    fastio;
-    ll n;
     cin >> n;
 
-    vll x;
     ll xi;
     for(ll i=0; i<n; i++) {
         cin >> xi; 
-        x.push_back(xi);
+        xs.push_back(xi);
     }
-    sort(all(x));
-    ll soma=0;
+    sort(all(xs));
+    
+    ll val=1;
     for(ll i=0; i<n; i++) {
-        soma += x[i];
-        x.push_back(soma);
+        if(xs[i] > val) {
+            cout << val << '\n';
+            return 0;
+        }
+        else
+            val += xs[i];
     }
 
-    if()
-   
+    cout << val << "\n";
+
 
     return 0;
 }

@@ -1,3 +1,5 @@
+// build
+
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -17,6 +19,31 @@ using ll = long long;
 
 signed main() {
     dedinhos;
+    ll t;
+    cin >> t;
+    while(t--) {
+        ll n;
+        cin >> n;
+
+        vll a(n);
+        rep(i, 0, n) {
+            if(i%2==0) {
+                a[i] = -1;
+            }
+            else {
+                a[i] = 3;
+            }
+        }
+
+        if(n%2==0) {
+            a[n-1] = 2;
+        }
+
+        for(auto e: a)
+            cout << e << ' ';
+        cout << '\n';
+
+    }
 
     return 0;
 }

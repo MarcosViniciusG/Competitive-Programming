@@ -26,53 +26,66 @@ signed main() {
         vll pre;
         vll coins;
 
-        pre.push_back(1);
+        pre.eb(1);
         ll i=1;
         ll v=1;
         while(v < ll(1e9)) {
             v*=3;
-            pre.push_back(v);
+            pre.eb(v);
             i++;
         }
         i--;
+        ll lm = i;
 
-        coins.push_back(3);
+        coins.eb(3);
         for(ll j=1; j<i; j++) {
-            coins.push_back(pre[j+1] + j*pre[j-1]);
+            coins.eb(pre[j+1] + j*pre[j-1]);
         }
 
         ll ans=0;
-        queue<ll> deals;
+        vll deals(i+1, 0);
+        ll num=0;
+        i--;
         while(n > 0) {
-            while(pre[i] <= n) {
-                deals.push(i);
-                n -= pre[i];
-                ans += coins[i];
-            }
-            if(pre[i]>n)
+            ll mx = (n / pre[i]);
+            n -= mx * pre[i];
+            ans += coins[i] * mx;
+            deals[i] = mx;
+            num += mx;
+            if(pre[i] > n) 
                 i--;
         }
 
-        if(deals.size() > k) {
+        if(num > k) {
             cout << -1 << '\n';
             continue;
         }
-        else if(deals.size() == k) {
+        else if(num == k) {
             cout << ans << '\n';
             continue;
         }
 
-        ll num = deals.size();
-        while(num + 2 <= k && !deals.empty()) {
-            ll u = deals.front(); deals.pop();
-            if(u==0)
-                break;
-            
-            ll temp = 3;
-            ll off=1;
-            while(u > 0 && num + off) {
-                num += 2;
+        per(j, deals.size()-1, 1) {
+            ll qnt = deals[j];
+            if(qnt <= 0) continue;
+
+            ll pos = (k - num) / 2;
+            if(pos > qnt) {
+                num += qnt * 2;
+                deals[j] -= qnt;
+                ans += coins[j-1] * qnt * 3;
+                ans -= coins[j] * qnt;
+                deals[j-1] += qnt*3; 
             }
+            else if(pos <= qnt) {
+                num += pos * 2;
+                deals[j] -= pos;
+                ans += coins[j-1] * pos * 3;
+                ans -= coins[j] * pos;
+                deals[j-1] += pos*3; 
+                break;
+            }
+
         }
 
         cout << ans << "\n";

@@ -15,40 +15,33 @@ using ll = long long;
 #define per(i, a, b) for(ll i = (a); i >= (ll)(b); --i)
 #define eb emplace_back
 
+const ll m = ll(1e9) + 7;
+
 signed main() {
     ll n;
     cin >> n;
 
-    ll ans=0;
     vll a(n);
     rep(i, 0, n) 
         cin >> a[i];
 
-    ll l=0;
     set<ll> st;
-    ll r=0;
-    ll last;
-    for(; r<n; r++) {
-        ll rn = l;
-        bool first=false;
-        while(st.find(a[r])!=st.end() && l < r) {
-            st.erase(a[l]);
-            if(!first) 
-            {
-                first = true;
-                ans += (r - l + 1) * (r-l) / 2;
-            }
-            last = a[l];
-            l++;
-        }
-
-        // if(last==a[l])
-        //     ans++;
-        if(first)
-            ans -= (r-l + 1) * (r-l) / 2;
-
-        st.insert(a[r]);
+    vll pre(n+1, 0);
+    pre[0] = 0;
+    cout << pre[0] << ' ';
+    rep(i, 0, n) {
+        st.insert(a[i]);
+        pre[i+1] = st.size();
+        cout << pre[i+1] << ' ';
     }
-    cout << ans + (((r-l+1) * (r-l)) / 2) << '\n';
+    cout << '\n';
+
+    ll ans=0;
+    rep(i, 0, n) {
+        ll l = pre[n] - pre[i];
+        ans += ((l * (l+1)) % m / 2) % m;
+        ans %= m;
+    }
+    cout << ans % m << '\n';
     return 0;
 }

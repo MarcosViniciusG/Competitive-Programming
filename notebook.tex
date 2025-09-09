@@ -44,6 +44,23 @@ $O(n \log n)$
 Maximum value variation.
 \lstinputlisting[style=cppStyle]{Algorithms/DataStructures/segment_tree/main.cpp}
 
+\subsection{Monotonic Queue}
+$O(n)$
+
+Can be used to find the nearest max/min element to the left/right 
+
+Can be used to find the max/min element to the left/right
+
+Can be used to find the sum of the max/min element of all intervals. Formula:
+
+$L_i = p(i), R_i = n(i)$ 
+
+If $R_i$ is the new smallest/biggest, $R_i = n$. If $L_i$ is the new smallest/biggest, $L_i = -1$.
+
+$
+ans += a[i](i-L_i) (R_i-i)
+$
+
 \section{Sequences}
 \subsection{Max/Min subsegment}
 $O(n)$
@@ -145,7 +162,7 @@ $O(n \log n)$
 \lstinputlisting[style=cppStyle]{Algorithms/DynamicProgramming/lis/main.cpp}
 
 \subsection{Travelling Salesman Problem}
-$O(N^22^N)$
+$O(N^2 2^N)$
 \lstinputlisting[style=cppStyle]{Algorithms/DynamicProgramming/traveling_salesman/main.cpp}
 
 \section{Math Formulas}

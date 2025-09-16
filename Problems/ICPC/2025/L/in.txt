@@ -1,0 +1,9 @@
+3
+oi 0 -20
+tchau 1 5
+besta 3 -40
+4
+oi oi oi oi
+2 5
+5 oi oi oi oi oi
+6 oi oi oi oi oi oi

@@ -17,27 +17,20 @@ signed main() {
     dedinhos;
     ll n;
     cin >> n;
-
-    vector<string> words;
+    vector<string> words(n);
     map<string, pll> mp;
-    vector<pll> xs;
-    string s;
     ll x, y;
     rep(i, 0, n) {
-        cin >> s;
+        cin >> words[i];
         cin >> x >> y;
-        mp[s] = {x, y};
-        words.push_back(s);
-        xs.push_back({x, y});
+        mp[words[i]] = {x, y};
     }
 
     ll m;
     cin >> m;
-    vector<string> text;
-    rep(i, 0, m) {
-        cin >> s;
-        text.push_back(s);
-    }
+    vector<string> text(m);
+    rep(i, 0, m) 
+        cin >> text[i];
 
     ll q, k;
     cin >> q >> k;
@@ -46,40 +39,35 @@ signed main() {
         ll f;
         cin >> f;
         vector<string> obj(f);
-        rep(i, 0, f) {
+        rep(i, 0, f) 
             cin >> obj[i];
-        }
 
         vector<string> candidates;
-        int ogk = k;
-        while(candidates.empty() && k > 0) {
-            int counter=0;
-            rep(i, 0, m) {
-                if(counter==k) {
-                    candidates.push_back(text[i]);
-                    counter=0;
-                }
-
-                if(obj[f-k+counter]==text[i])
-                    counter++;
-                else
-                    counter=0;
+        per(j, k, 1) {
+            ll l = 0;
+            rep(r, j, m) {
+                ll w=l;
+                for(ll c=0; w<r && obj[f-j+c]==text[w]; w++, c++);
+                if(w==r)
+                    candidates.push_back(text[w]);
+                l++;
             }
-            k--;
-        }
-        k = ogk;
 
-        for(auto e: candidates)
-            cout << e << ' ';
-        cout << '\n';
+            if(!candidates.empty())
+                break;
+        }
 
         for(auto e: obj)
-                cout << e << ' ';
+            cout << e << ' ';
 
-        ll best=-LLONG_MAX;
-        string ans="*";
+        if(candidates.empty()) {
+            cout << "*\n";
+            continue;
+        }
+
+        ll best=0;
+        ll idx=0;
         rep(i, 0, n) {
-            if(candidates.empty()) break;;
             ll score=0;
             rep(j, 0, candidates.size()) {
                 pll ci = {0, 0};
@@ -87,18 +75,16 @@ signed main() {
                     ci = mp[candidates[j]];
 
                 // inner product
-                ll sm=0;
-                sm += xs[i].first * ci.first + xs[i].second * ci.second;
-
-                score += sm;
+                score += mp[words[i]].first * ci.first + mp[words[i]].second * ci.second;
             }
 
-            if(score > best) {
+            if(!i || score > best) {
                 best = score;
-                ans = words[i];
+                idx = i;
             }
         }
-        cout << ans << '\n';
+        candidates.clear();
+        cout << words[idx] << '\n';
     }
 
     return 0;

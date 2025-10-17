@@ -12,7 +12,7 @@ private:
     T p(T n) {return n & (-n);}
 
 public:
-    BTree(ll m) : ts(m+1, 0), m(m+1) {}
+    BITree(ll m) : ts(m+1, 0), m(m) {}
 
     T RSQ(ll i) {
         T sm = 0;

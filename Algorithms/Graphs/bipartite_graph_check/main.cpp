@@ -1,12 +1,12 @@
-bool isBipartite(ll s, ll n, vll adj[]) {
+// as cores sao 0 e 1
+bool isBipartite(ll s, ll n, const vvll &adj) {
     queue<ll> q;
     q.push(s);
     vll color(n, -1); color[s]=0;
     bool flag = true;
     while (!q.empty())
     {
-        vll neighbours = adj[q.front()]; 
-        for(auto nex: neighbours) {
+        for(auto nex: adj[q.front()]) {
             if(color[nex] == -1) {
                 color[nex] = 1-(color[q.front()]);
                 q.push(nex);
@@ -18,6 +18,5 @@ bool isBipartite(ll s, ll n, vll adj[]) {
         }
         q.pop();   
     }
-
     return flag;
 }

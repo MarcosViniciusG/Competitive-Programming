@@ -1,26 +1,30 @@
-void dijkstra(ll s, vll & d, vll & p) {
-    d.assign(n, LLONG_MAX);
-    p.assign(n, -1);
-
-    d[s] = 0;
-    priority_queue<pll, vpll, greater<pll>> q;
-    q.push({0, s});
-    while (!q.empty()) {
-        ll v = q.top().second;
-        ll d_v = q.top().first;
-        q.pop();
-        if (d_v != d[v])
-            continue;
-
-        for (auto edge : adj[v]) {
-            ll to = edge.first;
-            ll len = edge.second;
-
-            if (d[v] + len < d[to]) {
-                d[to] = d[v] + len;
-                p[to] = v;
-                q.push({d[to], to});
+/**
+ *  @param  g  Graph (w, v).
+ *  @param  s  Starting vertex.
+ *  @return    Vectors with smallest distances from every vertex to s and the paths.
+ *  Na construcao do grafo, nos pares, primeiro vem o peso
+ *  e depois o vertice
+*/
+pair<vll, vll> dijkstra(const vvpll& g, ll s) {
+    vll ds(g.size(), LLONG_MAX), pre = ds;
+    priority_queue<pll, vpll, greater<>> pq;
+    ds[s] = 0, pq.emplace(ds[s], s);
+    while (!pq.empty()) {
+        auto [t, u] = pq.top(); pq.pop();
+        if (t > ds[u]) continue;
+        for (auto [w, v] : g[u])
+            if (t + w < ds[v]) { // relaxamento
+                ds[v] = t + w, pre[v] = u;
+                pq.emplace(ds[v], v);
             }
-        }
     }
+    return { ds, pre };
+}
+vll get_path(const vll& pre, ll u) {
+    vll p;
+    while (u != LLONG_MAX) {
+        p.eb(u), u = pre[u];
+    }
+    reverse(all(p));
+    return p;
 }

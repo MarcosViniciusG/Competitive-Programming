@@ -24,207 +24,24 @@
 }
 
 \begin{document}
-\tableofcontents 
 
-\section{Template}
-\lstinputlisting[style=cppStyle]{Algorithms/template.hpp}
+\section{Segment Tree}
+\subsection{Normal}
+\lstinputlisting[style=cppStyle]{Algorithms/DataStructures/segment_tree/normal/main.cpp}
 
-\section{Search}
-\subsection{Ternary Search}
-$O(\log{n})$
+\subsection{Lazy Propagation}
+\lstinputlisting[style=cppStyle]{Algorithms/DataStructures/segment_tree/lazy_propagation/main.cpp}
 
-Function f(x) is unimodal on an interval [l, r]. Unimodal means: the function strictly increases first, reaches a maximum, and then strictly decreases OR the function strictly decreases first, reaches a minimum and then strictly decreases
-\lstinputlisting[style=cppStyle]{Algorithms/Search/Ternary_Search/main.cpp}
-
-\section{Data Structures}
-
-\subsection{Segment Tree}
-$O(n \log n)$
-
-Maximum value variation.
-\lstinputlisting[style=cppStyle]{Algorithms/DataStructures/segment_tree/main.cpp}
-
-\subsection{Monotonic Queue}
-$O(n)$
-
-Can be used to find the nearest max/min element to the left/right 
-
-Can be used to find the max/min element to the left/right
-
-Can be used to find the sum of the max/min element of all intervals. Formula:
-
-$L_i = p(i), R_i = n(i)$ 
-
-If $R_i$ is the new smallest/biggest, $R_i = n$. If $L_i$ is the new smallest/biggest, $L_i = -1$.
-
-$
-ans += a[i](i-L_i) (R_i-i)
-$
-
-\section{Sequences}
-\subsection{Max/Min subsegment}
-$O(n)$
-\lstinputlisting[style=cppStyle]{Algorithms/Sequences/max_min_subsegment/main.cpp}
-
-\subsubsection{Max/Min submatrix}
-$O(nm^2)$
-\lstinputlisting[style=cppStyle]{Algorithms/Sequences/max_min_subsegment/max_min_submatrix/main.cpp}
-
-\section{Algebra}
-\subsection{All divisors}
-$O(\sqrt{n})$
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/divisors/main.cpp}
-
-\subsection{Primality test}
-$O(\sqrt{n})$
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/primality_test/main.cpp}
-
-\subsection{Binary exponentiation}
-$O(\log n)$
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/binary_exponentiation/main.cpp}
-
-\subsection{Greatest common divisor}
-$O(\log \min (a, b))$
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/gcd/main.cpp}
-\subsubsection{Least common multiple}
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/gcd/lcm/main.cpp}
-\subsubsection{Extended Euclides Algorithm}
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/gcd/extended_euclides_algorithm/main.cpp}
-
-\subsection{Linear Diophantine Equations}
-$O(\log \min (a, b))$
-\subsubsection{Any solution}
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/linear_diophantine/any_solution/main.cpp}
-
-\subsection{Integer Factorization}
-\subsubsection{Pollard's Rho}
-$O(\sqrt[4]{n}\log n)$
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/integer_factorization/pollard_rho/main.cpp}
-
-\subsection{Fast Fourier Transform}
-$O(n \log n)$
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/fast_fourier_transform/main.cpp}
-\subsubsection{Polynomial Multiplication}
-\lstinputlisting[style=cppStyle]{Algorithms/Algebra/fast_fourier_transform/polynomial_multiplication/main.cpp}
-
-\section{Graphs}
-\subsection{DFS}
-$O(n+m)$
-\lstinputlisting[style=cppStyle]{Algorithms/Graphs/dfs/main.cpp}
-
-\subsection{BFS}
-$O(n+m)$
-\lstinputlisting[style=cppStyle]{Algorithms/Graphs/bfs/main.cpp}
-
-\subsubsection{Shortest path on unweighted graph}
-$O(n+m)$
-\lstinputlisting[style=cppStyle]{Algorithms/Graphs/bfs/shortest_path_unweighted/main.cpp}
-
-\subsection{Flood Fill}
-$O(n+m)$
-\lstinputlisting[style=cppStyle]{Algorithms/Graphs/flood_fill/main.cpp};
-
-\subsection{Topological Sort (Directed Acyclic Graph)}
-\subsubsection{DFS Variation}
-$O(n+m)$
-\lstinputlisting[style=cppStyle]{Algorithms/Graphs/topological_sort/dfs/main.cpp}
-
-\subsubsection{Kahn's Algorithm}
+\section{Algoritmo de Kahn}
 \lstinputlisting[style=cppStyle]{Algorithms/Graphs/topological_sort/kahn/main.cpp}
 
-\subsection{Bipartite Graph Check (Undirected Graph)}
-$O(n+m)$
+\section{Verificar se o grafo é bipartido}
 \lstinputlisting[style=cppStyle]{Algorithms/Graphs/bipartite_graph_check/main.cpp}
 
-\subsection{Cycle Check (Directed Graph)}
-$O(n+m)$
-\lstinputlisting[style=cppStyle]{Algorithms/Graphs/cycle_check/main.cpp}
-
-\subsection{Dijkstra}
-$O(n \log n + m\log n)$
+\section{Dijkstra}
 \lstinputlisting[style=cppStyle]{Algorithms/Graphs/dijkstra/main.cpp}
 
-\section{Dynamic Programming}
-\subsection{Coin Change}
-$O(nm)$
-\lstinputlisting[style=cppStyle]{Algorithms/DynamicProgramming/coin_problem/main.cpp}
-
-\subsubsection{Canonicality check}
-$O(n^3)$
-\lstinputlisting[style=cppStyle]{Algorithms/DynamicProgramming/coin_problem/canonicality/main.cpp}
-
-\subsection{Knapsack}
-$O(nm)$
-\lstinputlisting[style=cppStyle]{Algorithms/DynamicProgramming/knapsack/main.cpp}
-
-\subsection{LIS}
-$O(n \log n)$
-\lstinputlisting[style=cppStyle]{Algorithms/DynamicProgramming/lis/main.cpp}
-
-\subsection{Travelling Salesman Problem}
-$O(N^2 2^N)$
-\lstinputlisting[style=cppStyle]{Algorithms/DynamicProgramming/traveling_salesman/main.cpp}
-
-\section{Math Formulas}
-\subsection{Sum of an arithmetic progression}
-$S_n = \frac{n}{2}(a_1 + a_n)$
-
-\subsection{Permutation with repeated elements}
-$P_n = \frac{n!}{n_1!n_2!...n_k!}$ 
-
-\subsection{Check if is geometric progression}
-$a_i^{2} = a_{i-1}a_{i+1}$
-
-\subsection{Bitwise equations}
-$a|b = a \oplus b + a\&b
-\newline
-a\oplus(a\&b)=(a|b)\oplus b
-\newline
-(a\&b)\oplus(a|b) = a \oplus b
-\newline \newline
-a+b = a|b + a\&b
-\newline
-a+b = a\oplus b + 2(a\&b)
-\newline \newline
-a-b = (a\oplus(a\&b))-((a|b)\oplus a)
-\newline
-a-b = ((a|b)\oplus b)-((a|b)\oplus a)
-\newline
-a-b = (a\oplus(a\&b))-(b\oplus(a\&b))
-\newline
-a-b = ((a|b)\oplus b)-(b\oplus(a\&b))
-$
-
-\subsection{Cube of Binomial}
-$(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3
-\newline
-(a-b)^3 = a^3 - 3a^2b + 3ab^2-b^3
-$
-
-\subsubsection{Sum of Cubes}
-$a^3 + b^3 = (a+b)(a^2 - ab + b^2)$
-
-\subsubsection{Difference of Cubes}
-$a^3-b^3 = (a-b)(a^2 +ab + b^2)$
-
-\subsection{Binomial expansion}
-$\binom{n}{k} = \frac{n!}{k!(n-k)!}
-\newline
-(a+b)^n = \sum_{k=0}^{n} \binom{n}{k}a^{k}b^{n-k}$
-
-\section{Facts}
-\subsection{XOR}
-\subsubsection{Self-inverse property}
-To cancel a XOR, you can XOR again the same value because $a \oplus a = 0$, so $(value \oplus a) \oplus a = value$
-
-\subsubsection{Identity element}
-$a \oplus 0 = a$
-
-\subsubsection{Commutative}
-$a \oplus b = b \oplus a$
-
-\subsubsection{Associative}
-$(a \oplus b) \oplus c = a \oplus (b \oplus c)$
-
+\section{Kruskal (MST)}
+\lstinputlisting[style=cppStyle]{Algorithms/Graphs/kruskal/main.cpp}
 
 \end{document}
